@@ -91,7 +91,7 @@ export function HeroSection({
 
         <Animated.View style={[styles.portraitWrap, isWide && styles.portraitWrapWide, { minHeight: dynamicPortraitHeight }, portraitStyle]}>
           <Image source={portrait} resizeMode="contain" style={styles.portrait} />
-          <View style={styles.portraitFadeTop} />
+          {isWide && <View style={styles.portraitFadeTop} />}
         </Animated.View>
       </View>
       <View style={styles.scrollCue}>

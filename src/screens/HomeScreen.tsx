@@ -10,12 +10,14 @@ import Animated, {
   useAnimatedScrollHandler,
   useSharedValue,
   withSpring,
+  FadeIn,
+  FadeOut,
 } from 'react-native-reanimated';
-import { ArrowUpRight } from 'lucide-react-native';
+import { ArrowUpRight, Menu, X, ChevronDown } from 'lucide-react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { AboutSection } from '../components/sections/AboutSection';
-
+import { ContactSection } from '../components/sections/ContactSection';
 import { HeroSection } from '../components/sections/HeroSection';
 import { KresnaFooter } from '../components/sections/KresnaFooter';
 import { ProjectsSection } from '../components/sections/ProjectsSection';
@@ -34,6 +36,7 @@ export default function HomeScreen() {
   const [activeProjectId, setActiveProjectId] = useState<ProjectId>('qubes-messenger');
   const [galleryIndex, setGalleryIndex] = useState(0);
   const [sceneState, setSceneState] = useState({ scroll: 0, motion: { x: 0, y: 0 } });
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const isWide = width >= 900;
   const activeProject = useMemo(
@@ -87,6 +90,83 @@ export default function HomeScreen() {
     <View style={styles.root}>
       <StatusBar style="dark" translucent />
 
+      <View style={[
+        styles.stickyHeader, 
+        { top: insets.top > 0 ? insets.top + 12 : 16 },
+        width < 680 && isMenuOpen && styles.stickyHeaderExpanded
+      ]}>
+        <View style={styles.header}>
+          <View style={styles.logoContainer}>
+            <Text style={styles.logoBrackets}>[ </Text>
+            <Text style={styles.logoMain}>R</Text>
+            <Text style={styles.logoBrackets}> ]</Text>
+          </View>
+          {width >= 680 ? (
+            <>
+              <View style={[styles.navLinks, { gap: width < 900 ? 20 : 36 }]}>
+                <Pressable onPress={() => scrollToSection(height * 0.92)}>
+                  <Text style={styles.navLink}>Projects</Text>
+                </Pressable>
+                <Pressable onPress={() => scrollToSection(height * 1.9)}>
+                  <Text style={styles.navLink}>About Me</Text>
+                </Pressable>
+                <Pressable onPress={() => scrollToSection(height * 2.55)}>
+                  <Text style={styles.navLink}>Contact</Text>
+                </Pressable>
+                <Pressable onPress={() => alert('Resume downloading...')} style={styles.resumeHeaderBtn}>
+                  <Text style={[styles.navLink, styles.resumeText]}>Resume</Text>
+                </Pressable>
+              </View>
+              <Pressable onPress={() => scrollToSection(height * 2.55)} style={styles.bookCall}>
+                <Text style={styles.bookCallText}>Book A Call</Text>
+                <ArrowUpRight size={11} color={C.white} strokeWidth={2} />
+              </Pressable>
+            </>
+          ) : (
+            <View style={styles.dropdownToggleContainer}>
+              <Pressable 
+                onPress={() => setIsMenuOpen(!isMenuOpen)} 
+                style={[
+                  styles.dropdownToggle, 
+                  isMenuOpen && styles.dropdownToggleActive
+                ]}
+              >
+                <Text style={[styles.dropdownToggleText, isMenuOpen && { color: C.ink }]}>Menu</Text>
+                {isMenuOpen ? (
+                  <X size={12} color={C.ink} strokeWidth={2} />
+                ) : (
+                  <ChevronDown size={12} color={C.white} strokeWidth={2} />
+                )}
+              </Pressable>
+            </View>
+          )}
+        </View>
+
+        {width < 680 && isMenuOpen && (
+          <Animated.View entering={FadeIn.duration(200)} style={styles.mobileLinksContainer}>
+            <Pressable onPress={() => { scrollToSection(height * 0.92); setIsMenuOpen(false); }} style={styles.mobileLinkItem}>
+              <Text style={styles.mobileLinkLabel}>PROJECTS</Text>
+            </Pressable>
+            <Pressable onPress={() => { scrollToSection(height * 1.9); setIsMenuOpen(false); }} style={styles.mobileLinkItem}>
+              <Text style={styles.mobileLinkLabel}>ABOUT ME</Text>
+            </Pressable>
+            <Pressable onPress={() => { scrollToSection(height * 2.55); setIsMenuOpen(false); }} style={styles.mobileLinkItem}>
+              <Text style={styles.mobileLinkLabel}>CONTACT</Text>
+            </Pressable>
+            <Pressable onPress={() => { alert('Resume downloading...'); setIsMenuOpen(false); }} style={styles.mobileLinkItem}>
+              <Text style={styles.mobileLinkLabel}>DOWNLOAD RESUME</Text>
+            </Pressable>
+            <Pressable 
+              onPress={() => { scrollToSection(height * 2.55); setIsMenuOpen(false); }} 
+              style={styles.mobileCtaBtn}
+            >
+              <Text style={styles.mobileCtaText}>BOOK A CALL</Text>
+              <ArrowUpRight size={13} color={C.white} strokeWidth={2} />
+            </Pressable>
+          </Animated.View>
+        )}
+      </View>
+
       <Animated.ScrollView
         ref={scrollRef as React.RefObject<never>}
         contentInsetAdjustmentBehavior="automatic"
@@ -94,33 +174,14 @@ export default function HomeScreen() {
         scrollEventThrottle={16}
         onScroll={onScroll}
         decelerationRate="fast"
-        contentContainerStyle={[styles.content, { paddingTop: insets.top + 14, paddingBottom: insets.bottom + 56 }]}
+        contentContainerStyle={[styles.content, { paddingTop: insets.top + 84, paddingBottom: insets.bottom + 56 }]}
       >
-        <View style={styles.header}>
-          <Text style={styles.brandMark}>PR</Text>
-          <View style={[styles.navLinks, { gap: width < 450 ? 10 : width < 600 ? 24 : width < 900 ? 50 : 100 }]}>
-            <Pressable onPress={() => scrollToSection(height * 0.92)}>
-              <Text style={[styles.navLink, { fontSize: width < 450 ? 11 : 13 }]}>Projects</Text>
-            </Pressable>
-            <Pressable onPress={() => scrollToSection(height * 1.9)}>
-              <Text style={[styles.navLink, { fontSize: width < 450 ? 11 : 13 }]}>About Me</Text>
-            </Pressable>
-            <Pressable onPress={() => scrollToSection(height * 2.55)}>
-              <Text style={[styles.navLink, { fontSize: width < 450 ? 11 : 13 }]}>Contact</Text>
-            </Pressable>
-          </View>
-          <Pressable onPress={() => scrollToSection(height * 2.55)} style={styles.bookCall}>
-            <Text style={[styles.bookCallText, { fontSize: width < 450 ? 10 : 12 }]}>Book A Call</Text>
-            <ArrowUpRight size={width < 450 ? 10 : 12} color={C.ink} strokeWidth={1.5} />
-          </Pressable>
-        </View>
-
         <HeroSection
           isWide={isWide}
           height={height}
           scrollY={scrollY}
           onProjectsPress={() => scrollToSection(height * 0.92)}
-          onAboutPress={() => scrollToSection(height * 1.9)}
+          onAboutPress={() => alert('Resume downloading...')}
         />
 
         <ProjectsSection
@@ -135,6 +196,8 @@ export default function HomeScreen() {
 
         <AboutSection isWide={isWide} />
         
+        <ContactSection />
+        
         <KresnaFooter />
       </Animated.ScrollView>
     </View>
@@ -143,18 +206,161 @@ export default function HomeScreen() {
 
 const styles = StyleSheet.create({
   root: { flex: 1, backgroundColor: C.paper },
-  content: { paddingHorizontal: 22, backgroundColor: C.paper },
-  header: { minHeight: 38, flexDirection: 'row', alignItems: 'center', gap: 18 },
-  brandMark: { color: C.ink, fontSize: 23, fontWeight: '900' },
-  navLinks: { flex: 1, flexDirection: 'row', gap: 100, justifyContent: 'center' },
-  navLink: { color: C.ink, fontSize: 13, fontWeight: '800' },
+  content: { 
+    paddingHorizontal: 24, 
+    backgroundColor: C.paper,
+    width: '100%',
+  },
+  stickyHeader: {
+    position: 'absolute',
+    left: 24,
+    right: 24,
+    backgroundColor: 'rgba(249, 249, 247, 0.9)',
+    zIndex: 1000,
+    borderWidth: 1,
+    borderColor: 'rgba(17, 17, 17, 0.06)',
+    borderRadius: 100,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    shadowColor: C.ink,
+    shadowOffset: { width: 0, height: 6 },
+    shadowOpacity: 0.04,
+    shadowRadius: 12,
+    elevation: 3,
+  },
+  header: { 
+    minHeight: 38, 
+    flexDirection: 'row', 
+    alignItems: 'center', 
+    justifyContent: 'space-between',
+    width: '100%',
+  },
+  logoContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  logoBrackets: {
+    color: C.muted,
+    fontFamily: 'monospace',
+    fontSize: 16,
+    fontWeight: '500',
+  },
+  logoMain: {
+    color: C.ink,
+    fontFamily: 'serif',
+    fontSize: 18,
+    fontWeight: '800',
+    fontStyle: 'italic',
+  },
+  navLinks: { 
+    flexDirection: 'row', 
+    gap: 32, 
+    alignItems: 'center' 
+  },
+  navLink: { 
+    color: C.ink, 
+    fontSize: 12, 
+    fontWeight: '800',
+    fontFamily: 'monospace',
+    letterSpacing: 0.5,
+  },
+  resumeHeaderBtn: {
+    borderWidth: 1,
+    borderColor: C.ink,
+    paddingHorizontal: 12,
+    paddingVertical: 4,
+    borderRadius: 100,
+    backgroundColor: C.white,
+  },
+  resumeText: {
+    fontSize: 11,
+    fontWeight: '900',
+  },
   bookCall: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 3,
-    borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: C.ink,
-    paddingBottom: 2,
+    gap: 4,
+    borderWidth: 1,
+    borderColor: C.ink,
+    backgroundColor: C.ink,
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    borderRadius: 100,
   },
-  bookCallText: { color: C.ink, fontSize: 12, fontWeight: '900' },
+  bookCallText: { 
+    color: C.white, 
+    fontSize: 11, 
+    fontWeight: '900',
+    fontFamily: 'monospace',
+    letterSpacing: 0.5,
+  },
+  dropdownToggleContainer: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+  },
+  dropdownToggle: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+    borderWidth: 1,
+    borderColor: C.ink,
+    paddingHorizontal: 14,
+    paddingVertical: 6,
+    backgroundColor: C.ink,
+    borderRadius: 100,
+  },
+  dropdownToggleActive: {
+    backgroundColor: C.white,
+    borderColor: C.ink,
+  },
+  dropdownToggleText: {
+    color: C.white,
+    fontSize: 11,
+    fontWeight: '900',
+    fontFamily: 'monospace',
+    letterSpacing: 0.5,
+  },
+  stickyHeaderExpanded: {
+    borderRadius: 24,
+    paddingBottom: 16,
+  },
+  mobileLinksContainer: {
+    marginTop: 18,
+    gap: 12,
+    width: '100%',
+    alignItems: 'center',
+    borderTopWidth: StyleSheet.hairlineWidth,
+    borderTopColor: 'rgba(17, 17, 17, 0.08)',
+    paddingTop: 16,
+  },
+  mobileLinkItem: {
+    paddingVertical: 8,
+    width: '100%',
+    alignItems: 'center',
+  },
+  mobileLinkLabel: {
+    color: C.ink,
+    fontSize: 12,
+    fontWeight: '900',
+    fontFamily: 'monospace',
+    letterSpacing: 1,
+  },
+  mobileCtaBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 6,
+    backgroundColor: C.ink,
+    width: '100%',
+    paddingVertical: 12,
+    borderRadius: 100,
+    marginTop: 8,
+  },
+  mobileCtaText: {
+    color: C.white,
+    fontSize: 12,
+    fontWeight: '900',
+    fontFamily: 'monospace',
+    letterSpacing: 0.5,
+  },
 });

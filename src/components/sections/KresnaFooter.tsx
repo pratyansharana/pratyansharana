@@ -15,7 +15,7 @@ declare const window: { addEventListener?: (name: string, callback: () => void) 
 const footerHtml = `
   <style>
     .footer-section, .footer-section * , .footer-section *::before, .footer-section *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    .footer-section { background: #ffffff; padding: 48px 24px; color: #2d3148; font-family: 'DM Sans', sans-serif; }
+    .footer-section { background: #ffffff; padding: 48px 24px; color: #2d3148; font-family: 'DM Sans', sans-serif; overflow: hidden; }
     .footer-wrapper { max-width: 1150px; margin: 0 auto; display: grid; grid-template-columns: 350px 1fr; gap: 16px; align-items: stretch; position: relative; z-index: 1; }
     .footer-left { position: relative; min-height: 340px; border-radius: 28px; padding: 32px; overflow: hidden; box-shadow: 0 12px 40px rgba(21, 76, 189, 0.25); background: #1e4fc0; display: flex; flex-direction: column; justify-content: space-between; }
     .footer-left-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0; pointer-events: none; }
@@ -39,7 +39,7 @@ const footerHtml = `
     .lucky-arrow { width: 22px; height: 22px; color: #9ca3af; }
     .lucky-arrow path { stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
     .lucky-text { font: 600 20px 'Caveat', cursive; color: #9ca3af; white-space: nowrap; }
-    .footer-nav-cols { display: flex; gap: 72px; padding-top: 8px; }
+    .footer-nav-cols { display: flex; gap: 72px; padding-top: 8px; flex-wrap: wrap; }
     .footer-col-title { font: italic 600 24px 'Caveat', cursive; color: #9ca3af; margin-bottom: 18px; }
     .footer-col a { display: block; font: 600 14px 'DM Sans', sans-serif; color: #111827; margin-bottom: 14px; text-decoration: none; transition: color 0.2s; }
     .footer-col a:hover { color: #1f65d6; }
@@ -57,15 +57,28 @@ const footerHtml = `
     .footer-watermark svg { display: block; width: 100%; height: auto; overflow: visible; }
     .footer-watermark text { font-family: 'DM Sans', sans-serif; font-weight: 700; letter-spacing: -0.03em; fill: rgba(0, 0, 0, 0.04); }
     @media (max-width: 860px) { .footer-wrapper { grid-template-columns: 1fr; } .footer-left { min-height: auto; gap: 40px; } .footer-lucky-graphic { display: none; } }
-    @media (max-width: 560px) { .footer-right { padding: 24px; } .footer-nav-cols { gap: 40px; } .footer-bottom { flex-direction: column; align-items: flex-start; gap: 24px; } .footer-subscribe-row { width: 100%; } .footer-lucky-graphic { right: 12px; top: -28px; } .lucky-cube { width: 72px; height: 72px; } .lucky-cube-mark { font-size: 32px; } }
+    @media (max-width: 560px) {
+      .footer-left { padding: 24px; }
+      .footer-right { padding: 24px; }
+      .footer-nav-cols { gap: 32px; }
+      .footer-bottom { flex-direction: column-reverse; align-items: stretch; gap: 32px; }
+      .footer-subscribe-row { width: 100%; }
+      .footer-lucky-graphic { display: none; }
+    }
+    @media (max-width: 400px) {
+      .footer-subscribe-row { flex-direction: column; width: 100%; border: 0; background: transparent; box-shadow: none; gap: 8px; padding: 0; }
+      .footer-subscribe-row input { background: #fff; border: 1px solid #e5e7eb; border-radius: 12px; padding: 12px; width: 100%; }
+      .footer-subscribe-row button { width: 100%; padding: 12px; border-radius: 12px; }
+      .footer-nav-cols { gap: 24px; flex-direction: column; }
+    }
   </style>
   <div class="footer-wrapper">
     <div class="footer-left">
       <video class="footer-left-video" autoplay muted loop playsinline preload="auto">
         <source src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260503_104800_bc43ae09-f494-43e3-97d7-2f8c1692cfd7.mp4" type="video/mp4" />
       </video>
-      <div class="footer-logo"><div class="footer-logo-mark">K</div><span class="footer-logo-name">Rana</span></div>
-      <div class="footer-tagline-container"><p class="footer-tagline">Smarter sales automation,<br><span>powered by AI.</span></p></div>
+      <div class="footer-logo"><div class="footer-logo-mark">PR</div><span class="footer-logo-name">Rana</span></div>
+      <div class="footer-tagline-container"><p class="footer-tagline">High-performance mobile engineering,<br><span>focused on advanced digital systems.</span></p></div>
       <div class="footer-social-row">
         <div class="footer-social-label">Stay in touch!</div>
         <div class="footer-social-icons">
@@ -77,9 +90,32 @@ const footerHtml = `
       </div>
     </div>
     <div class="footer-right">
-      <div class="footer-lucky-graphic"><div class="lucky-cube"><span class="lucky-cube-mark">K</span></div><div class="lucky-text-row"><svg class="lucky-arrow" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3 20 C 6 14, 10 9, 18 5" /><path d="M18 5 L 12 5" /><path d="M18 5 L 18 11" /></svg><span class="lucky-text">Feeling lucky?</span></div></div>
-      <div class="footer-right-top"><div class="footer-nav-cols"><div class="footer-col"><div class="footer-col-title">Navigation</div><a href="#">How it works</a><a href="#">Features</a><a href="#">Pricing</a><a href="#">Testimonials</a><a href="#">FAQ</a></div><div class="footer-col"><div class="footer-col-title">Company</div><a href="#">Blog</a><a href="#">About</a><a href="#">Terms and Condition</a><a href="#">Privacy Policy</a></div></div></div>
-      <div class="footer-bottom"><div class="footer-copyright">© 2025 Rana. All rights reserved.</div><div class="footer-cta-mini"><h4>AI moves fast.<br><strong>Stay ahead with Rana.</strong></h4><div class="footer-subscribe-row"><input type="email" placeholder="Enter email address" /><button type="button">Subscribe</button></div></div></div>
+      <div class="footer-lucky-graphic"><div class="lucky-cube"><span class="lucky-cube-mark">R</span></div><div class="lucky-text-row"><svg class="lucky-arrow" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3 20 C 6 14, 10 9, 18 5" /><path d="M18 5 L 12 5" /><path d="M18 5 L 18 11" /></svg><span class="lucky-text">Feeling lucky?</span></div></div>
+      <div class="footer-right-top">
+        <div class="footer-nav-cols">
+          <div class="footer-col">
+            <div class="footer-col-title">Navigation</div>
+            <a href="#">Projects</a>
+            <a href="#">About Me</a>
+            <a href="#">Contact</a>
+          </div>
+          <div class="footer-col">
+            <div class="footer-col-title">Networks</div>
+            <a href="https://github.com" target="_blank" rel="noopener noreferrer">GitHub</a>
+            <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <div class="footer-copyright">© 2026 Rana. All rights reserved.</div>
+        <div class="footer-cta-mini">
+          <h4>Let's build something fast.<br><strong>Reach out to Rana.</strong></h4>
+          <div class="footer-subscribe-row">
+            <input type="email" placeholder="Your email address" />
+            <button type="button">Connect</button>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
   <div class="footer-watermark" aria-hidden="true"><svg id="watermarkSvg" viewBox="62 95 876 175" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg"><text id="watermarkText" x="500" y="240" text-anchor="middle" font-size="320">Rana</text></svg></div>

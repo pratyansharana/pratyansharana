@@ -8,7 +8,7 @@ export function AboutSection({ isWide }: { isWide: boolean }) {
   
   // Custom metrics data adapted to your engineering profile
   const STATS = [
-    { label: 'YEARS OF EXPERIENCE', value: '02' },
+    { label: 'ADVANCED ENGINEERING', value: '02+ Yrs' },
     { label: 'PROJECTS COMPLETED', value: '20+' },
     { label: 'CORE COMPETENCIES', value: '05+' },
     { label: 'GLOBAL COMMITS', value: '124k+' },
@@ -20,7 +20,7 @@ export function AboutSection({ isWide }: { isWide: boolean }) {
   const isCenterAlign = !isWide && width <= 768;
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, !isWide && { marginTop: 250 }]}>
       
       {/* 🌟 FOUR-POINTED STAR DECORATIONS (SVG/Text representations) */}
       <Text style={[styles.starIcon, { top: 40, left: '15%' }]}>✦</Text>
@@ -85,9 +85,12 @@ export function AboutSection({ isWide }: { isWide: boolean }) {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: C.background,
+    backgroundColor: C.paper,
     paddingHorizontal: 24,
     paddingVertical: 60,
+    borderTopWidth: 1,
+    borderTopColor: C.ink,
+    marginTop: 40,
     position: 'relative',
     width: '100%',
   },
@@ -147,10 +150,10 @@ const styles = StyleSheet.create({
     gap: 12,
   },
   archWrapper: {
-    width: 280,
-    height: 380,
-    borderTopLeftRadius: 140, // Creating the clean geometric arched frame curve
-    borderTopRightRadius: 140,
+    width: 360,
+    height: 490,
+    borderTopLeftRadius: 180, // Creating the clean geometric arched frame curve
+    borderTopRightRadius: 180,
     borderWidth: 1,
     borderColor: 'rgba(17, 17, 17, 0.15)',
     padding: 6,
@@ -158,8 +161,8 @@ const styles = StyleSheet.create({
   },
   archBorderInner: {
     flex: 1,
-    borderTopLeftRadius: 134,
-    borderTopRightRadius: 134,
+    borderTopLeftRadius: 174,
+    borderTopRightRadius: 174,
     overflow: 'hidden', // Clips your picture perfectly inside the arch shape boundary
     backgroundColor: '#EAEAEA',
   },

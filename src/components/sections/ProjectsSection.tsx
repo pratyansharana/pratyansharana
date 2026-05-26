@@ -103,10 +103,23 @@ function BentoProjectDetails({
           </View>
         </View>
 
-        <View style={[styles.bentoCard, styles.darkHeroCard, { flex: isMobile ? undefined : 1.5 }]}>
-          <Text selectable style={styles.darkHeroKicker}>PROJECT: {project.title.toUpperCase()}</Text>
-          <Text selectable style={styles.darkHeroTitle}>Intelligent Digital Systems</Text>
-          <Text selectable style={styles.darkHeroBody} numberOfLines={3}>{project.coreFeatures}</Text>
+        <View style={[styles.bentoCard, styles.darkHeroCard, { flex: isMobile ? undefined : 1.5, minHeight: 240 }]}>
+          <Text selectable style={styles.darkHeroKicker}>CASE STUDY: {project.title.toUpperCase()}</Text>
+          <ScrollView 
+            showsVerticalScrollIndicator={true} 
+            indicatorStyle="white"
+            style={styles.caseStudyScroll}
+            contentContainerStyle={styles.caseStudyScrollContent}
+          >
+            <Text style={styles.caseStudyHeading}>THE CHALLENGE</Text>
+            <Text selectable style={styles.caseStudyText}>{project.challenge}</Text>
+            
+            <Text style={styles.caseStudyHeading}>MY CONTRIBUTION</Text>
+            <Text selectable style={styles.caseStudyText}>{project.contribution}</Text>
+            
+            <Text style={styles.caseStudyHeading}>BUSINESS & TECH IMPACT</Text>
+            <Text selectable style={styles.caseStudyText}>{project.impact}</Text>
+          </ScrollView>
         </View>
       </View>
 
@@ -182,7 +195,7 @@ export function ProjectsSection({
       <View style={[styles.projectWorkspace, isWide && styles.projectWorkspaceWide]}>
         
         {/* Left Side: Phone Showcase with Navigation Buttons */}
-        <View style={styles.phoneShowcaseWrapper}>
+        <View style={[styles.phoneShowcaseWrapper, !isWide && { flex: undefined }]}>
           <Pressable 
             onPress={handlePrevImage} 
             style={[styles.navButton, { padding: isTiny ? 6 : 12, marginHorizontal: isTiny ? 4 : 10 }, galleryIndex === 0 && styles.navButtonDisabled]}
@@ -219,7 +232,7 @@ export function ProjectsSection({
         </View>
 
         {/* Right Side: Bento Grid Dashboard */}
-        <View style={styles.projectSide}>
+        <View style={[styles.projectSide, !isWide && { flex: undefined }]}>
           <View style={styles.tabletFrame}>
             <BentoProjectDetails 
               project={activeProject} 
@@ -390,7 +403,10 @@ const styles = StyleSheet.create({
   darkHeroCard: { backgroundColor: '#111111', justifyContent: 'flex-start' },
   darkHeroKicker: { color: '#60A5FA', fontSize: 10, fontWeight: '800', marginBottom: 8, letterSpacing: 1 },
   darkHeroTitle: { color: C.white, fontSize: 24, lineHeight: 28, fontWeight: '600', marginBottom: 10 },
-  darkHeroBody: { color: '#9CA3AF', fontSize: 12, lineHeight: 18 },
+  caseStudyScroll: { flex: 1, marginTop: 4 },
+  caseStudyScrollContent: { gap: 10, paddingBottom: 10 },
+  caseStudyHeading: { color: '#60A5FA', fontSize: 9, fontWeight: '900', letterSpacing: 0.5, marginTop: 8 },
+  caseStudyText: { color: '#E5E7EB', fontSize: 11, lineHeight: 15, fontWeight: '400' },
 
   statValue: { fontSize: 24, fontWeight: '800', color: C.ink },
   statLabel: { fontSize: 8, fontWeight: '700', color: C.muted, textTransform: 'uppercase', marginTop: 2 },

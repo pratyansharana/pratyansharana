@@ -20,7 +20,7 @@ export function ContactSection() {
     { label: 'EMAIL', value: 'pratyansharana@gmail.com', link: 'mailto:pratyansharana@gmail.com' },
     { label: 'LOCATION', value: 'Bhopal, India / Remote', link: null },
     { label: 'GITHUB', value: 'github.com/pratyansharana', link: 'https://github.com/pratyansharana' },
-    { label: 'LINKEDIN', value: 'linkedin.com/in/pratyansh-rana', link: 'https://linkedin.com/in/pratyansh-rana' },
+    { label: 'LINKEDIN', value: 'linkedin.com/in/pratyansh-rana', link: 'https://www.linkedin.com/in/pratyansha-rana-99699b306/' },
   ];
 
   const renderStartButton = () => (

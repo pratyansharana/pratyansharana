@@ -37,6 +37,16 @@ export default function HomeScreen() {
   const [galleryIndex, setGalleryIndex] = useState(0);
   const [sceneState, setSceneState] = useState({ scroll: 0, motion: { x: 0, y: 0 } });
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [sectionPositions, setSectionPositions] = useState({
+    projects: 0,
+    about: 0,
+    contact: 0,
+  });
+
+  const handleSectionLayout = (key: 'projects' | 'about' | 'contact', event: any) => {
+    const { y } = event.nativeEvent.layout;
+    setSectionPositions((prev) => ({ ...prev, [key]: y }));
+  };
 
   const isWide = width >= 900;
   const activeProject = useMemo(
@@ -104,20 +114,20 @@ export default function HomeScreen() {
           {width >= 680 ? (
             <>
               <View style={[styles.navLinks, { gap: width < 900 ? 20 : 36 }]}>
-                <Pressable onPress={() => scrollToSection(height * 0.92)}>
+                <Pressable onPress={() => scrollToSection(sectionPositions.projects)}>
                   <Text style={styles.navLink}>Projects</Text>
                 </Pressable>
-                <Pressable onPress={() => scrollToSection(height * 1.9)}>
+                <Pressable onPress={() => scrollToSection(sectionPositions.about)}>
                   <Text style={styles.navLink}>About Me</Text>
                 </Pressable>
-                <Pressable onPress={() => scrollToSection(height * 2.55)}>
+                <Pressable onPress={() => scrollToSection(sectionPositions.contact)}>
                   <Text style={styles.navLink}>Contact</Text>
                 </Pressable>
                 <Pressable onPress={() => alert('Resume downloading...')} style={styles.resumeHeaderBtn}>
                   <Text style={[styles.navLink, styles.resumeText]}>Resume</Text>
                 </Pressable>
               </View>
-              <Pressable onPress={() => scrollToSection(height * 2.55)} style={styles.bookCall}>
+              <Pressable onPress={() => scrollToSection(sectionPositions.contact)} style={styles.bookCall}>
                 <Text style={styles.bookCallText}>Book A Call</Text>
                 <ArrowUpRight size={11} color={C.white} strokeWidth={2} />
               </Pressable>
@@ -144,20 +154,20 @@ export default function HomeScreen() {
 
         {width < 680 && isMenuOpen && (
           <Animated.View entering={FadeIn.duration(200)} style={styles.mobileLinksContainer}>
-            <Pressable onPress={() => { scrollToSection(height * 0.92); setIsMenuOpen(false); }} style={styles.mobileLinkItem}>
+            <Pressable onPress={() => { scrollToSection(sectionPositions.projects); setIsMenuOpen(false); }} style={styles.mobileLinkItem}>
               <Text style={styles.mobileLinkLabel}>PROJECTS</Text>
             </Pressable>
-            <Pressable onPress={() => { scrollToSection(height * 1.9); setIsMenuOpen(false); }} style={styles.mobileLinkItem}>
+            <Pressable onPress={() => { scrollToSection(sectionPositions.about); setIsMenuOpen(false); }} style={styles.mobileLinkItem}>
               <Text style={styles.mobileLinkLabel}>ABOUT ME</Text>
             </Pressable>
-            <Pressable onPress={() => { scrollToSection(height * 2.55); setIsMenuOpen(false); }} style={styles.mobileLinkItem}>
+            <Pressable onPress={() => { scrollToSection(sectionPositions.contact); setIsMenuOpen(false); }} style={styles.mobileLinkItem}>
               <Text style={styles.mobileLinkLabel}>CONTACT</Text>
             </Pressable>
             <Pressable onPress={() => { alert('Resume downloading...'); setIsMenuOpen(false); }} style={styles.mobileLinkItem}>
               <Text style={styles.mobileLinkLabel}>DOWNLOAD RESUME</Text>
             </Pressable>
             <Pressable 
-              onPress={() => { scrollToSection(height * 2.55); setIsMenuOpen(false); }} 
+              onPress={() => { scrollToSection(sectionPositions.contact); setIsMenuOpen(false); }} 
               style={styles.mobileCtaBtn}
             >
               <Text style={styles.mobileCtaText}>BOOK A CALL</Text>
@@ -173,30 +183,35 @@ export default function HomeScreen() {
         showsVerticalScrollIndicator={false}
         scrollEventThrottle={16}
         onScroll={onScroll}
-        decelerationRate="fast"
         contentContainerStyle={[styles.content, { paddingTop: insets.top + 84, paddingBottom: insets.bottom + 56 }]}
       >
         <HeroSection
           isWide={isWide}
           height={height}
           scrollY={scrollY}
-          onProjectsPress={() => scrollToSection(height * 0.92)}
+          onProjectsPress={() => scrollToSection(sectionPositions.projects)}
           onAboutPress={() => alert('Resume downloading...')}
         />
 
-        <ProjectsSection
-          isWide={isWide}
-          activeProject={activeProject}
-          activeProjectId={activeProjectId}
-          galleryIndex={galleryIndex}
-          sceneState={sceneState}
-          onSelectProject={selectProject}
-          onImageSelect={setGalleryIndex}
-        />
+        <View onLayout={(e) => handleSectionLayout('projects', e)}>
+          <ProjectsSection
+            isWide={isWide}
+            activeProject={activeProject}
+            activeProjectId={activeProjectId}
+            galleryIndex={galleryIndex}
+            sceneState={sceneState}
+            onSelectProject={selectProject}
+            onImageSelect={setGalleryIndex}
+          />
+        </View>
 
-        <AboutSection isWide={isWide} />
+        <View onLayout={(e) => handleSectionLayout('about', e)}>
+          <AboutSection isWide={isWide} />
+        </View>
         
-        <ContactSection />
+        <View onLayout={(e) => handleSectionLayout('contact', e)}>
+          <ContactSection />
+        </View>
         
         <KresnaFooter />
       </Animated.ScrollView>

@@ -39,16 +39,16 @@ export function AboutSection({ isWide }: { isWide: boolean }) {
         {/* LEFT COLUMN: NARRATIVE PROSE */}
         <Animated.View entering={FadeInDown.duration(600).delay(200)} style={[styles.leftColumn, isCenterAlign && { alignItems: 'center', maxWidth: '100%' }]}>
           <View style={styles.textGroup}>
-            <Text style={[styles.kicker, isCenterAlign && { textAlign: 'center' }]}>BACKGROUND ARCHITECT</Text>
+            <Text style={[styles.kicker, isCenterAlign && { textAlign: 'center' }]}>ABOUT ME</Text>
             <Text style={[styles.bodyParagraph, isCenterAlign && { textAlign: 'center' }]}>
-              Pratyansha Rana specializes in building full-stack cross-platform mobile apps using React Native, Expo, and advanced cryptography systems.
+              I am a software engineer pursuing my B-Tech in CSE (AIML) at LNCT&S (4th Semester). I specialize in building robust, secure, and highly optimized cross-platform mobile apps using React Native, TypeScript, Firebase, Supabase, Express, and MongoDB.
             </Text>
           </View>
 
           <View style={styles.textGroup}>
-            <Text style={[styles.kicker, isCenterAlign && { textAlign: 'center' }]}>THE CORE MISSION</Text>
+            <Text style={[styles.kicker, isCenterAlign && { textAlign: 'center' }]}>MY SYSTEMS PHILOSOPHY</Text>
             <Text style={[styles.bodyParagraph, isCenterAlign && { textAlign: 'center' }]}>
-              My goal is to always exceed client and recruiter expectations with high-performance mobile products where secure data layers feel considered.
+              I primarily focus on the core robustness and security of the systems I build rather than weak products with superficial features. Leveraging a basic understanding of Quantum Computing and Quantum Key Distribution, I engineer secure, performant mobile products that deliver true technical value.
             </Text>
           </View>
         </Animated.View>
@@ -65,7 +65,7 @@ export function AboutSection({ isWide }: { isWide: boolean }) {
               />
             </View>
           </View>
-          <Text style={styles.captionText}>Engineer based in Bhopal, since 2024</Text>
+          <Text style={styles.captionText}>I am based in Bhopal, India</Text>
         </Animated.View>
 
         {/* RIGHT COLUMN: HIGH-CONTRAST METRICS STACK */}
@@ -179,7 +179,7 @@ const styles = StyleSheet.create({
   rightColumn: {
     flex: 1,
     gap: 24,
-    maxWidth: 240,
+    maxWidth: 320,
     alignItems: 'flex-end',
   },
   statCard: {

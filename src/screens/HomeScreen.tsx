@@ -42,6 +42,12 @@ export default function HomeScreen() {
   );
 
   useEffect(() => {
+    if (typeof document !== 'undefined') {
+      (document as any).title = 'Rana';
+    }
+  }, []);
+
+  useEffect(() => {
     if (typeof document !== 'undefined') return undefined;
 
     Gyroscope.setUpdateInterval(33);
@@ -92,20 +98,20 @@ export default function HomeScreen() {
       >
         <View style={styles.header}>
           <Text style={styles.brandMark}>PR</Text>
-          <View style={styles.navLinks}>
+          <View style={[styles.navLinks, { gap: width < 450 ? 10 : width < 600 ? 24 : width < 900 ? 50 : 100 }]}>
             <Pressable onPress={() => scrollToSection(height * 0.92)}>
-              <Text style={styles.navLink}>Projects</Text>
+              <Text style={[styles.navLink, { fontSize: width < 450 ? 11 : 13 }]}>Projects</Text>
             </Pressable>
             <Pressable onPress={() => scrollToSection(height * 1.9)}>
-              <Text style={styles.navLink}>About Me</Text>
+              <Text style={[styles.navLink, { fontSize: width < 450 ? 11 : 13 }]}>About Me</Text>
             </Pressable>
             <Pressable onPress={() => scrollToSection(height * 2.55)}>
-              <Text style={styles.navLink}>Contact</Text>
+              <Text style={[styles.navLink, { fontSize: width < 450 ? 11 : 13 }]}>Contact</Text>
             </Pressable>
           </View>
           <Pressable onPress={() => scrollToSection(height * 2.55)} style={styles.bookCall}>
-            <Text style={styles.bookCallText}>Book A Call</Text>
-            <ArrowUpRight size={12} color={C.ink} strokeWidth={1.5} />
+            <Text style={[styles.bookCallText, { fontSize: width < 450 ? 10 : 12 }]}>Book A Call</Text>
+            <ArrowUpRight size={width < 450 ? 10 : 12} color={C.ink} strokeWidth={1.5} />
           </Pressable>
         </View>
 

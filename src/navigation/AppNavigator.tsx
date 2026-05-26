@@ -39,7 +39,7 @@ export default function AppNavigator() {
           animation: 'slide_from_right'
         }}
       >
-        <Stack.Screen name="MainTabs" component={TabNavigator} />
+        <Stack.Screen name="MainTabs" component={TabNavigator} options={{ title: 'Rana' }} />
         <Stack.Screen name="ProjectDetails" component={ProjectDetailsScreen} />
       </Stack.Navigator>
     </NavigationContainer>

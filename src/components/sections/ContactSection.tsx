@@ -1,19 +1,23 @@
 import React from 'react';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { Pressable, StyleSheet, Text, View, useWindowDimensions } from 'react-native';
 import { ArrowUpRight, Code2, Mail, MapPin, Send, Sparkles } from 'lucide-react-native';
 
 import { C } from '../../constants/portfolioTheme';
 
 export function ContactSection() {
+  const { width } = useWindowDimensions();
+  const dynamicContactTitleSize = width < 480 ? 28 : width < 768 ? 38 : 52;
+  const dynamicContactTitleLineHeight = dynamicContactTitleSize * 1.1;
+
   return (
     <View style={[styles.section, styles.contactSection]}>
-      <View style={styles.contactPanel}>
+      <View style={[styles.contactPanel, { padding: width < 480 ? 16 : 28 }]}>
         <View style={styles.contactIntro}>
           <View style={styles.contactBadge}>
             <Sparkles size={16} color={C.ink} strokeWidth={1.5} />
             <Text selectable style={styles.contactBadgeText}>AVAILABLE FOR SELECT BUILDS</Text>
           </View>
-          <Text selectable style={styles.contactTitle}>
+          <Text selectable style={[styles.contactTitle, { fontSize: dynamicContactTitleSize, lineHeight: dynamicContactTitleLineHeight }]}>
             Let's build a mobile experience that feels fast, calm, and unmistakably premium.
           </Text>
           <Text selectable style={styles.contactBody}>

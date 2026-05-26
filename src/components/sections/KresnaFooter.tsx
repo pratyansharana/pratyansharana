@@ -56,7 +56,7 @@ const footerHtml = `
     .footer-watermark { max-width: 1150px; margin: -60px auto 0; pointer-events: none; user-select: none; position: relative; z-index: 0; line-height: 0; }
     .footer-watermark svg { display: block; width: 100%; height: auto; overflow: visible; }
     .footer-watermark text { font-family: 'DM Sans', sans-serif; font-weight: 700; letter-spacing: -0.03em; fill: rgba(0, 0, 0, 0.04); }
-    @media (max-width: 860px) { .footer-wrapper { grid-template-columns: 1fr; } .footer-left { min-height: auto; gap: 40px; } }
+    @media (max-width: 860px) { .footer-wrapper { grid-template-columns: 1fr; } .footer-left { min-height: auto; gap: 40px; } .footer-lucky-graphic { display: none; } }
     @media (max-width: 560px) { .footer-right { padding: 24px; } .footer-nav-cols { gap: 40px; } .footer-bottom { flex-direction: column; align-items: flex-start; gap: 24px; } .footer-subscribe-row { width: 100%; } .footer-lucky-graphic { right: 12px; top: -28px; } .lucky-cube { width: 72px; height: 72px; } .lucky-cube-mark { font-size: 32px; } }
   </style>
   <div class="footer-wrapper">

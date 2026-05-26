@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Pressable, StyleSheet, Text, View, ScrollView, Modal, Dimensions } from 'react-native';
+import { Pressable, StyleSheet, Text, View, ScrollView, Modal, Dimensions, useWindowDimensions } from 'react-native';
 import { Cpu, Code2, Globe, Database, Smartphone, Zap, ChevronLeft, ChevronRight, Maximize2, X } from 'lucide-react-native';
 
 import ThreePhoneModel from '../ThreePhoneModel';
@@ -59,11 +59,14 @@ function BentoProjectDetails({
   galleryIndex: number;
   onImageSelect: (index: number) => void;
 }) {
+  const { width } = useWindowDimensions();
+  const isMobile = width < 600;
+
   return (
     <View style={styles.bentoContainer}>
       {/* Top Row */}
-      <View style={styles.bentoRow}>
-        <View style={[styles.bentoCard, styles.appShowcaseCard, { flex: 1.2 }]}>
+      <View style={[styles.bentoRow, isMobile && { flexDirection: 'column' }]}>
+        <View style={[styles.bentoCard, styles.appShowcaseCard, { flex: isMobile ? undefined : 1.2 }]}>
           <View style={styles.badgePremium}>
             <Text style={styles.badgePremiumText}>SELECTED SYSTEM</Text>
           </View>
@@ -80,15 +83,15 @@ function BentoProjectDetails({
           </View>
         </View>
 
-        <View style={[styles.bentoCard, styles.metricCard, { flex: 0.8 }]}>
+        <View style={[styles.bentoCard, styles.metricCard, { flex: isMobile ? undefined : 0.8, paddingVertical: isMobile ? 24 : 16 }]}>
           <Text selectable style={styles.metricValue}>{project.coreMetric.split(' ')[0]}</Text>
           <Text selectable style={styles.metricLabel}>{project.coreMetric.substring(project.coreMetric.indexOf(' ') + 1)}</Text>
         </View>
       </View>
 
       {/* Middle Row */}
-      <View style={styles.bentoRow}>
-        <View style={[styles.bentoCard, { flex: 0.8, backgroundColor: C.paper }]}>
+      <View style={[styles.bentoRow, isMobile && { flexDirection: 'column' }]}>
+        <View style={[styles.bentoCard, { flex: isMobile ? undefined : 0.8, backgroundColor: C.paper }]}>
           <Text style={styles.cardKicker}>CORE STACK</Text>
           <View style={styles.stackList}>
             {project.stack.slice(0, 5).map((tech, i) => (
@@ -100,7 +103,7 @@ function BentoProjectDetails({
           </View>
         </View>
 
-        <View style={[styles.bentoCard, styles.darkHeroCard, { flex: 1.5 }]}>
+        <View style={[styles.bentoCard, styles.darkHeroCard, { flex: isMobile ? undefined : 1.5 }]}>
           <Text selectable style={styles.darkHeroKicker}>PROJECT: {project.title.toUpperCase()}</Text>
           <Text selectable style={styles.darkHeroTitle}>Intelligent Digital Systems</Text>
           <Text selectable style={styles.darkHeroBody} numberOfLines={3}>{project.coreFeatures}</Text>
@@ -108,8 +111,8 @@ function BentoProjectDetails({
       </View>
 
       {/* Bottom Row */}
-      <View style={styles.bentoRow}>
-        <View style={[styles.bentoCard, { flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingVertical: 12 }]}>
+      <View style={[styles.bentoRow, isMobile && { flexDirection: 'column' }]}>
+        <View style={[styles.bentoCard, { flex: isMobile ? undefined : 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingVertical: 12 }]}>
           <View>
             <Text style={styles.statValue}>100%</Text>
             <Text style={styles.statLabel}>RELIABILITY</Text>
@@ -120,7 +123,7 @@ function BentoProjectDetails({
           </View>
         </View>
 
-        <View style={[styles.bentoCard, styles.darkStatCard, { flex: 0.5, paddingVertical: 12 }]}>
+        <View style={[styles.bentoCard, styles.darkStatCard, { flex: isMobile ? undefined : 0.5, paddingVertical: 12 }]}>
           <Text style={styles.statValueDark}>V.1</Text>
           <Text style={styles.statLabelDark}>PRODUCTION</Text>
         </View>
@@ -147,6 +150,9 @@ export function ProjectsSection({
   onImageSelect: (index: number) => void;
 }) {
   const [isFullscreen, setIsFullscreen] = useState(false);
+  const { width } = useWindowDimensions();
+  const isTiny = width < 450;
+  const dynamicCanvasHeight = width < 450 ? 300 : 420;
 
   // Navigation Handlers
   const handlePrevImage = () => {
@@ -179,13 +185,13 @@ export function ProjectsSection({
         <View style={styles.phoneShowcaseWrapper}>
           <Pressable 
             onPress={handlePrevImage} 
-            style={[styles.navButton, galleryIndex === 0 && styles.navButtonDisabled]}
+            style={[styles.navButton, { padding: isTiny ? 6 : 12, marginHorizontal: isTiny ? 4 : 10 }, galleryIndex === 0 && styles.navButtonDisabled]}
             disabled={galleryIndex === 0}
           >
-            <ChevronLeft size={24} color={galleryIndex === 0 ? C.muted : C.ink} />
+            <ChevronLeft size={isTiny ? 18 : 24} color={galleryIndex === 0 ? C.muted : C.ink} />
           </Pressable>
 
-          <View style={styles.phoneShowcase}>
+          <View style={[styles.phoneShowcase, { height: dynamicCanvasHeight }]}>
             {/* Fullscreen Trigger Overlay */}
             <Pressable onPress={() => setIsFullscreen(true)} style={styles.expandButton}>
               <Maximize2 size={20} color={C.ink} />
@@ -205,10 +211,10 @@ export function ProjectsSection({
 
           <Pressable 
             onPress={handleNextImage} 
-            style={[styles.navButton, galleryIndex === activeProject.gallery.length - 1 && styles.navButtonDisabled]}
+            style={[styles.navButton, { padding: isTiny ? 6 : 12, marginHorizontal: isTiny ? 4 : 10 }, galleryIndex === activeProject.gallery.length - 1 && styles.navButtonDisabled]}
             disabled={galleryIndex === activeProject.gallery.length - 1}
           >
-            <ChevronRight size={24} color={galleryIndex === activeProject.gallery.length - 1 ? C.muted : C.ink} />
+            <ChevronRight size={isTiny ? 18 : 24} color={galleryIndex === activeProject.gallery.length - 1 ? C.muted : C.ink} />
           </Pressable>
         </View>
 

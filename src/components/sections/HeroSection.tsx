@@ -1,5 +1,5 @@
 import React from 'react';
-import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
+import { Image, Pressable, StyleSheet, Text, View, useWindowDimensions } from 'react-native';
 import Animated, {
   Extrapolate,
   interpolate,
@@ -19,7 +19,7 @@ function Metric({ value, label }: { value: string; label: string }) {
   );
 }
 
-function AnimatedCharacter({ char, index, scrollY }: { char: string; index: number; scrollY: SharedValue<number> }) {
+function AnimatedCharacter({ char, index, scrollY, fontSize, lineHeight }: { char: string; index: number; scrollY: SharedValue<number>; fontSize: number; lineHeight: number }) {
   const animatedStyle = useAnimatedStyle(() => {
     const start = index * 5;
     const opacity = interpolate(scrollY.value, [start, start + 180], [1, 0.26], Extrapolate.CLAMP);
@@ -27,14 +27,14 @@ function AnimatedCharacter({ char, index, scrollY }: { char: string; index: numb
     return { opacity, transform: [{ translateY }] };
   });
 
-  return <Animated.Text style={[styles.heroChar, animatedStyle]}>{char === ' ' ? '\u00A0' : char}</Animated.Text>;
+  return <Animated.Text style={[styles.heroChar, { fontSize, lineHeight }, animatedStyle]}>{char === ' ' ? '\u00A0' : char}</Animated.Text>;
 }
 
-function FadeCharacters({ text, scrollY }: { text: string; scrollY: SharedValue<number> }) {
+function FadeCharacters({ text, scrollY, fontSize, lineHeight }: { text: string; scrollY: SharedValue<number>; fontSize: number; lineHeight: number }) {
   return (
     <View style={styles.characterWrap}>
       {text.split('').map((char, index) => (
-        <AnimatedCharacter key={`${char}-${index}`} char={char} index={index} scrollY={scrollY} />
+        <AnimatedCharacter key={`${char}-${index}`} char={char} index={index} scrollY={scrollY} fontSize={fontSize} lineHeight={lineHeight} />
       ))}
     </View>
   );
@@ -53,6 +53,7 @@ export function HeroSection({
   onProjectsPress: () => void;
   onAboutPress: () => void;
 }) {
+  const { width } = useWindowDimensions();
   const portraitStyle = useAnimatedStyle(() => ({
     transform: [
       { translateY: interpolate(scrollY.value, [0, height], [0, -42], Extrapolate.CLAMP) },
@@ -60,15 +61,20 @@ export function HeroSection({
     ] as const,
   }));
 
+  // Dynamic calculations for premium mobile typography
+  const dynamicFontSize = Math.min(110, width * 0.21);
+  const dynamicLineHeight = dynamicFontSize * 1.05;
+  const dynamicPortraitHeight = width < 600 ? Math.min(360, width * 0.85) : 520;
+
   return (
     <>
-      <View style={[styles.hero, isWide && styles.heroWide, { minHeight: Math.max(660, height - 42) }]}>
+      <View style={[styles.hero, isWide && styles.heroWide, { minHeight: Math.max(600, height - 42) }]}>
         <View style={styles.heroLeft}>
           <View style={styles.metricsRow}>
             <Metric value="+24" label="Project completed" />
             <Metric value="+9" label="Startup grade builds" />
           </View>
-          <FadeCharacters text="Hello" scrollY={scrollY} />
+          <FadeCharacters text="Hello" scrollY={scrollY} fontSize={dynamicFontSize} lineHeight={dynamicLineHeight} />
           <Text selectable style={styles.roleLine}>
             - It's Pratyansha, a React Native and intelligent systems developer building fast mobile products with a premium editorial eye.
           </Text>
@@ -83,7 +89,7 @@ export function HeroSection({
           </View>
         </View>
 
-        <Animated.View style={[styles.portraitWrap, isWide && styles.portraitWrapWide, portraitStyle]}>
+        <Animated.View style={[styles.portraitWrap, isWide && styles.portraitWrapWide, { minHeight: dynamicPortraitHeight }, portraitStyle]}>
           <Image source={portrait} resizeMode="contain" style={styles.portrait} />
           <View style={styles.portraitFadeTop} />
         </Animated.View>
@@ -114,7 +120,7 @@ const styles = StyleSheet.create({
     borderTopColor: C.ink,
     color: C.charcoal,
     fontSize: 18,
-    lineHeight: 18,
+    lineHeight: 24, // Fix line-height issue to allow wrapping text
   },
   heroActions: { flexDirection: 'row', gap: 10, marginTop: 28 },
   primaryAction: { flexDirection: 'row', alignItems: 'center', gap: 8, backgroundColor: C.ink, paddingHorizontal: 18, paddingVertical: 12 },

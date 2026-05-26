@@ -14,6 +14,11 @@ export function AboutSection({ isWide }: { isWide: boolean }) {
     { label: 'GLOBAL COMMITS', value: '124k+' },
   ];
 
+  const isSmall = width < 480;
+  const dynamicTitleSize = isSmall ? 30 : 44;
+  const dynamicTitleLineHeight = isSmall ? 36 : 52;
+  const isCenterAlign = !isWide && width <= 768;
+
   return (
     <View style={styles.container}>
       
@@ -23,7 +28,7 @@ export function AboutSection({ isWide }: { isWide: boolean }) {
 
       {/* 1. EDITORIAL MAIN HEADLINE */}
       <Animated.View entering={FadeInUp.duration(700)} style={styles.headerContainer}>
-        <Text style={styles.mainTitle}>
+        <Text style={[styles.mainTitle, { fontSize: dynamicTitleSize, lineHeight: dynamicTitleLineHeight }]}>
           Inspiration Starting{'\n'}From Designing
         </Text>
       </Animated.View>
@@ -32,17 +37,17 @@ export function AboutSection({ isWide }: { isWide: boolean }) {
       <View style={[styles.contentLayout, (isWide || width > 768) && styles.contentLayoutWide]}>
         
         {/* LEFT COLUMN: NARRATIVE PROSE */}
-        <Animated.View entering={FadeInDown.duration(600).delay(200)} style={styles.leftColumn}>
+        <Animated.View entering={FadeInDown.duration(600).delay(200)} style={[styles.leftColumn, isCenterAlign && { alignItems: 'center', maxWidth: '100%' }]}>
           <View style={styles.textGroup}>
-            <Text style={styles.kicker}>BACKGROUND ARCHITECT</Text>
-            <Text style={styles.bodyParagraph}>
+            <Text style={[styles.kicker, isCenterAlign && { textAlign: 'center' }]}>BACKGROUND ARCHITECT</Text>
+            <Text style={[styles.bodyParagraph, isCenterAlign && { textAlign: 'center' }]}>
               Pratyansha Rana specializes in building full-stack cross-platform mobile apps using React Native, Expo, and advanced cryptography systems.
             </Text>
           </View>
 
           <View style={styles.textGroup}>
-            <Text style={styles.kicker}>THE CORE MISSION</Text>
-            <Text style={styles.bodyParagraph}>
+            <Text style={[styles.kicker, isCenterAlign && { textAlign: 'center' }]}>THE CORE MISSION</Text>
+            <Text style={[styles.bodyParagraph, isCenterAlign && { textAlign: 'center' }]}>
               My goal is to always exceed client and recruiter expectations with high-performance mobile products where secure data layers feel considered.
             </Text>
           </View>
@@ -64,9 +69,9 @@ export function AboutSection({ isWide }: { isWide: boolean }) {
         </Animated.View>
 
         {/* RIGHT COLUMN: HIGH-CONTRAST METRICS STACK */}
-        <Animated.View entering={FadeInDown.duration(600).delay(300)} style={styles.rightColumn}>
+        <Animated.View entering={FadeInDown.duration(600).delay(300)} style={[styles.rightColumn, isCenterAlign && { alignItems: 'center', maxWidth: undefined }]}>
           {STATS.map((stat, idx) => (
-            <View key={idx} style={styles.statCard}>
+            <View key={idx} style={[styles.statCard, isCenterAlign && { alignItems: 'center' }]}>
               <Text style={styles.statLabel}>{stat.label}</Text>
               <Text style={styles.statValue}>{stat.value}</Text>
             </View>

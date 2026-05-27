@@ -2,6 +2,9 @@ const { getDefaultConfig } = require('expo/metro-config');
 
 const config = getDefaultConfig(__dirname);
 
+// Explicitly add pdf to asset extensions resolver list
+config.resolver.assetExts.push('pdf');
+
 // Target ONLY the explicit transient autolinking folder, leaving node_modules intact
 config.resolver.blocklistRE = [
   /node_modules\/\.expo-modules-autolinking-/,

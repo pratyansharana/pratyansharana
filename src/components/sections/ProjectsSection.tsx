@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Pressable, StyleSheet, Text, View, ScrollView, Modal, Dimensions, useWindowDimensions } from 'react-native';
 import { Cpu, Code2, Globe, Database, Smartphone, Zap, ChevronLeft, ChevronRight, Maximize2, X } from 'lucide-react-native';
 
-import ThreePhoneModel from '../ThreePhoneModel';
 import { C } from '../../constants/portfolioTheme';
 import { ENGINEERING_PROJECTS, EngineeringProject, ProjectId } from '../../data/projects';
 
@@ -145,6 +144,200 @@ function BentoProjectDetails({
   );
 }
 
+function ProductionPhoneMockup({
+  project,
+  galleryIndex,
+}: {
+  project: EngineeringProject;
+  galleryIndex: number;
+}) {
+  const isQubes = project.id === 'qubes-messenger';
+  const isCivic = project.id === 'citizenvote';
+  const isMarket = project.id === 'velocity-market';
+
+  const renderScreenContent = () => {
+    if (isQubes) {
+      if (galleryIndex === 0) {
+        return (
+          <View style={[styles.screenContent, { backgroundColor: '#0B0B0F' }]}>
+            <Text style={styles.screenHeader}>QUANTUM SECURE</Text>
+            <View style={styles.quantumGraph}>
+              <Text style={styles.quantumText}>[ BB84 PROTOCOL ]</Text>
+              <Text style={styles.quantumSub}>Polarization: 0° / 45° / 90°</Text>
+              <View style={styles.quantumMatrix}>
+                <Text style={styles.matrixRow}>|0⟩  ↗  |1⟩  →  ↗  |0⟩</Text>
+                <Text style={styles.matrixRow}>Key: 1 0 1 1 0 1 0 0</Text>
+              </View>
+            </View>
+            <View style={styles.statusBadgeGreen}>
+              <Text style={styles.statusText}>NEGOTIATION COMPLETE</Text>
+            </View>
+          </View>
+        );
+      }
+      if (galleryIndex === 1) {
+        return (
+          <View style={[styles.screenContent, { backgroundColor: '#0F0E13' }]}>
+            <View style={styles.chatHeader}>
+              <Text style={styles.chatTitle}>PHANTOM CORE</Text>
+              <Text style={styles.chatSubtitle}>• Kyber-1024 Active</Text>
+            </View>
+            <View style={styles.chatFeed}>
+              <View style={styles.chatBubbleLeft}>
+                <Text style={styles.chatTextLeft}>Decrypting post-quantum packet...</Text>
+              </View>
+              <View style={styles.chatBubbleRight}>
+                <Text style={styles.chatTextRight}>Handshake complete. Latency: 43ms.</Text>
+              </View>
+              <View style={styles.chatBubbleLeft}>
+                <Text style={styles.chatTextLeft}>Secure defense channel established.</Text>
+              </View>
+            </View>
+          </View>
+        );
+      }
+      return (
+        <View style={[styles.screenContent, { backgroundColor: '#0D0D0D' }]}>
+          <Text style={styles.screenHeader}>KEY TRACE MONITOR</Text>
+          <ScrollView contentContainerStyle={styles.matrixContainer}>
+            <Text style={styles.matrixLog}>[11:04:32] Kyber Key encapsulating...</Text>
+            <Text style={styles.matrixLog}>[11:04:32] Alice Shared Secret Generated</Text>
+            <Text style={styles.matrixLog}>[11:04:32] Bob Shared Secret Generated</Text>
+            <Text style={styles.matrixLog}>[11:04:32] Trace: 7F3A A9B1 C0E4 2F34</Text>
+            <Text style={styles.matrixLog}>[11:04:32] Keys matched successfully.</Text>
+          </ScrollView>
+        </View>
+      );
+    }
+
+    if (isCivic) {
+      if (galleryIndex === 0) {
+        return (
+          <View style={[styles.screenContent, { backgroundColor: '#EFEFEF' }]}>
+            <View style={styles.cameraHeader}>
+              <Text style={[styles.screenHeader, { color: C.ink }]}>LOK AWAZ CAMERA</Text>
+            </View>
+            <View style={styles.cameraContainer}>
+              <View style={styles.hazardOverlay}>
+                <Text style={styles.hazardTitle}>POTHOLE DETECTED</Text>
+                <Text style={styles.hazardConfidence}>Confidence: 94.6%</Text>
+              </View>
+            </View>
+            <View style={styles.statusBadgeAmber}>
+              <Text style={[styles.statusText, { color: C.ink }]}>ROUTING TO MUNICIPALITY</Text>
+            </View>
+          </View>
+        );
+      }
+      return (
+        <View style={[styles.screenContent, { backgroundColor: '#F5F5F3' }]}>
+          <Text style={[styles.screenHeader, { color: C.ink }]}>ZK-PROOF IDENTITY</Text>
+          <View style={styles.identityCard}>
+            <Text style={styles.idHash}>Hash: 0x9f32...8e21</Text>
+            <View style={styles.statusBadgeGreen}>
+              <Text style={styles.statusText}>VERIFIED ANONYMOUS</Text>
+            </View>
+          </View>
+        </View>
+      );
+    }
+
+    if (isMarket) {
+      if (galleryIndex === 0) {
+        return (
+          <View style={[styles.screenContent, { backgroundColor: '#F9F9F7' }]}>
+            <Text style={[styles.screenHeader, { color: C.ink }]}>GEAR SWAP</Text>
+            <View style={styles.marketGrid}>
+              <View style={styles.marketItem}>
+                <Text style={styles.itemTitle}>LNCT Dorm Lamp</Text>
+                <Text style={styles.itemPrice}>₹350</Text>
+              </View>
+              <View style={styles.marketItem}>
+                <Text style={styles.itemTitle}>Calculus Book</Text>
+                <Text style={styles.itemPrice}>₹180</Text>
+              </View>
+            </View>
+          </View>
+        );
+      }
+      if (galleryIndex === 1) {
+        return (
+          <View style={[styles.screenContent, { backgroundColor: '#FFFFFF' }]}>
+            <Text style={[styles.screenHeader, { color: C.ink }]}>STRIPE CHECKOUT</Text>
+            <View style={styles.checkoutForm}>
+              <Text style={styles.checkoutLabel}>Total Amount: ₹180</Text>
+              <View style={styles.payInput}>
+                <Text style={styles.payText}>•••• •••• •••• 4242</Text>
+              </View>
+              <View style={styles.payBtn}>
+                <Text style={styles.payBtnText}>Pay Securely</Text>
+              </View>
+            </View>
+          </View>
+        );
+      }
+      return (
+        <View style={[styles.screenContent, { backgroundColor: '#F9F9F7' }]}>
+          <Text style={[styles.screenHeader, { color: C.ink }]}>TRANSACTION SYNC</Text>
+          <View style={styles.syncState}>
+            <Text style={styles.syncVal}>100% SUCCESS</Text>
+            <Text style={styles.syncText}>Offline transactional queue synced globally under 120ms.</Text>
+          </View>
+        </View>
+      );
+    }
+
+    if (galleryIndex === 0) {
+      return (
+        <View style={[styles.screenContent, { backgroundColor: '#090F0D' }]}>
+          <Text style={styles.screenHeader}>BB84 SIMULATOR</Text>
+          <View style={styles.graphContainer}>
+            <Text style={styles.graphTitle}>Perturbation Key Rate</Text>
+            <Text style={styles.graphSub}>Noise Ratio: 4.2%</Text>
+            <View style={styles.visualGraphBar} />
+          </View>
+        </View>
+      );
+    }
+    if (galleryIndex === 1) {
+      return (
+        <View style={[styles.screenContent, { backgroundColor: '#0B0B0F' }]}>
+          <Text style={styles.screenHeader}>PERTURBATIONS MAP</Text>
+          <View style={styles.noiseMatrix}>
+            <Text style={styles.matrixLog}>Eavesdropping (Eve): NONE</Text>
+            <Text style={styles.matrixLog}>QBER: 0.024 (Normal)</Text>
+          </View>
+        </View>
+      );
+    }
+    return (
+      <View style={[styles.screenContent, { backgroundColor: '#0D0D0D' }]}>
+        <Text style={styles.screenHeader}>BENCHMARK RESULTS</Text>
+        <View style={styles.benchmarkCard}>
+          <Text style={styles.benchVal}>98.4% EFFICIENCY</Text>
+          <Text style={styles.benchLabel}>Topological Quantum Simulation Complete</Text>
+        </View>
+      </View>
+    );
+  };
+
+  return (
+    <View style={styles.iphoneOuter}>
+      <View style={styles.iphoneBezel}>
+        <View style={styles.iphoneIsland} />
+        <View style={styles.iphoneStatusBar}>
+          <Text style={styles.statusTime}>9:41</Text>
+          <View style={styles.statusIcons}>
+            <Text style={styles.statusIconText}>📶</Text>
+            <Text style={styles.statusIconText}>🔋</Text>
+          </View>
+        </View>
+        {renderScreenContent()}
+      </View>
+    </View>
+  );
+}
+
 export function ProjectsSection({
   isWide,
   activeProject,
@@ -210,15 +403,9 @@ export function ProjectsSection({
               <Maximize2 size={20} color={C.ink} />
             </Pressable>
 
-            <ThreePhoneModel
-              projects={ENGINEERING_PROJECTS}
-              activeProjectId={activeProjectId}
-              focusedProjectId={activeProjectId}
+            <ProductionPhoneMockup
+              project={activeProject}
               galleryIndex={galleryIndex}
-              singleMode
-              scrollProgress={sceneState.scroll}
-              motion={sceneState.motion}
-              onSelect={() => setIsFullscreen(true)} // Open full screen on click
             />
           </View>
 
@@ -265,15 +452,9 @@ export function ProjectsSection({
             </Pressable>
 
             <View style={styles.fullscreenPhoneContainer}>
-              <ThreePhoneModel
-                projects={ENGINEERING_PROJECTS}
-                activeProjectId={activeProjectId}
-                focusedProjectId={activeProjectId}
+              <ProductionPhoneMockup
+                project={activeProject}
                 galleryIndex={galleryIndex}
-                singleMode
-                scrollProgress={0}
-                motion={{ x: 0, y: 0 }}
-                onSelect={() => {}} // Do nothing in fullscreen mode
               />
             </View>
 
@@ -462,5 +643,384 @@ const styles = StyleSheet.create({
   indicatorDotActive: {
     backgroundColor: '#ffffff',
     width: 24,
+  },
+  // Production-grade iPhone Mockup Styles
+  iphoneOuter: {
+    width: '100%',
+    height: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  iphoneBezel: {
+    width: 250,
+    height: 420,
+    borderRadius: 36,
+    borderWidth: 10,
+    borderColor: '#1e1e24',
+    backgroundColor: C.ink,
+    overflow: 'hidden',
+    position: 'relative',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 12 },
+    shadowOpacity: 0.15,
+    shadowRadius: 20,
+    elevation: 8,
+  },
+  iphoneIsland: {
+    position: 'absolute',
+    top: 6,
+    left: '50%',
+    marginLeft: -38,
+    width: 76,
+    height: 18,
+    borderRadius: 9,
+    backgroundColor: '#000000',
+    zIndex: 999,
+  },
+  iphoneStatusBar: {
+    height: 28,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: 20,
+    width: '100%',
+    position: 'absolute',
+    top: 4,
+    left: 0,
+    right: 0,
+    zIndex: 998,
+  },
+  statusTime: {
+    color: '#8A8A8A',
+    fontSize: 9,
+    fontWeight: '700',
+    fontFamily: 'monospace',
+  },
+  statusIcons: {
+    flexDirection: 'row',
+    gap: 4,
+  },
+  statusIconText: {
+    fontSize: 9,
+  },
+  screenContent: {
+    flex: 1,
+    paddingTop: 36,
+    paddingHorizontal: 16,
+    paddingBottom: 16,
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  screenHeader: {
+    color: '#8A8D90',
+    fontSize: 10,
+    fontWeight: '900',
+    fontFamily: 'monospace',
+    letterSpacing: 1,
+    textAlign: 'center',
+    marginTop: 8,
+  },
+  quantumGraph: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '100%',
+    gap: 8,
+  },
+  quantumText: {
+    color: '#10B981',
+    fontSize: 12,
+    fontWeight: '800',
+    fontFamily: 'monospace',
+  },
+  quantumSub: {
+    color: C.muted,
+    fontSize: 8,
+    fontFamily: 'monospace',
+  },
+  quantumMatrix: {
+    backgroundColor: '#161B22',
+    borderWidth: 1,
+    borderColor: '#30363D',
+    borderRadius: 8,
+    padding: 8,
+    width: '100%',
+    alignItems: 'center',
+    gap: 4,
+  },
+  matrixRow: {
+    color: '#8B949E',
+    fontSize: 8,
+    fontFamily: 'monospace',
+  },
+  statusBadgeGreen: {
+    backgroundColor: 'rgba(16, 185, 129, 0.1)',
+    borderWidth: 1,
+    borderColor: '#10B981',
+    paddingVertical: 4,
+    paddingHorizontal: 10,
+    borderRadius: 100,
+  },
+  statusBadgeAmber: {
+    backgroundColor: 'rgba(245, 158, 11, 0.15)',
+    borderWidth: 1,
+    borderColor: '#F59E0B',
+    paddingVertical: 4,
+    paddingHorizontal: 10,
+    borderRadius: 100,
+  },
+  statusText: {
+    color: '#10B981',
+    fontSize: 8,
+    fontWeight: '900',
+    fontFamily: 'monospace',
+    letterSpacing: 0.5,
+  },
+  chatHeader: {
+    width: '100%',
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderBottomColor: '#2F343F',
+    paddingBottom: 6,
+    alignItems: 'center',
+    marginTop: 8,
+  },
+  chatTitle: {
+    color: C.white,
+    fontSize: 11,
+    fontWeight: '800',
+    fontFamily: 'monospace',
+  },
+  chatSubtitle: {
+    color: '#10B981',
+    fontSize: 7,
+    fontWeight: '900',
+    fontFamily: 'monospace',
+    marginTop: 2,
+  },
+  chatFeed: {
+    flex: 1,
+    width: '100%',
+    justifyContent: 'center',
+    gap: 10,
+  },
+  chatBubbleLeft: {
+    alignSelf: 'flex-start',
+    backgroundColor: '#23252F',
+    padding: 8,
+    borderRadius: 12,
+    borderTopLeftRadius: 0,
+    maxWidth: '85%',
+  },
+  chatBubbleRight: {
+    alignSelf: 'flex-end',
+    backgroundColor: C.white,
+    padding: 8,
+    borderRadius: 12,
+    borderTopRightRadius: 0,
+    maxWidth: '85%',
+  },
+  chatTextLeft: {
+    color: '#D1D5DB',
+    fontSize: 9,
+    lineHeight: 12,
+  },
+  chatTextRight: {
+    color: C.ink,
+    fontSize: 9,
+    lineHeight: 12,
+  },
+  matrixContainer: {
+    flex: 1,
+    width: '100%',
+    justifyContent: 'center',
+    gap: 6,
+  },
+  matrixLog: {
+    color: '#6EE7B7',
+    fontSize: 7,
+    fontFamily: 'monospace',
+    lineHeight: 10,
+  },
+  cameraHeader: {
+    width: '100%',
+    alignItems: 'center',
+    marginTop: 8,
+  },
+  cameraContainer: {
+    flex: 1,
+    backgroundColor: '#D1D5DB',
+    width: '100%',
+    borderRadius: 12,
+    justifyContent: 'center',
+    alignItems: 'center',
+    overflow: 'hidden',
+    marginVertical: 10,
+  },
+  hazardOverlay: {
+    backgroundColor: 'rgba(239, 68, 68, 0.9)',
+    borderWidth: 2,
+    borderColor: '#EF4444',
+    padding: 8,
+    borderRadius: 8,
+    alignItems: 'center',
+  },
+  hazardTitle: {
+    color: C.white,
+    fontSize: 9,
+    fontWeight: '900',
+    fontFamily: 'monospace',
+  },
+  hazardConfidence: {
+    color: C.white,
+    fontSize: 7,
+    fontFamily: 'monospace',
+    marginTop: 2,
+  },
+  identityCard: {
+    flex: 1,
+    width: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 16,
+  },
+  idHash: {
+    color: C.ink,
+    fontSize: 10,
+    fontWeight: '700',
+    fontFamily: 'monospace',
+  },
+  marketGrid: {
+    flex: 1,
+    width: '100%',
+    justifyContent: 'center',
+    gap: 10,
+  },
+  marketItem: {
+    backgroundColor: C.white,
+    borderWidth: 1,
+    borderColor: C.line,
+    borderRadius: 8,
+    padding: 10,
+    width: '100%',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  itemTitle: {
+    color: C.ink,
+    fontSize: 10,
+    fontWeight: '800',
+  },
+  itemPrice: {
+    color: '#10B981',
+    fontSize: 10,
+    fontWeight: '900',
+    fontFamily: 'monospace',
+  },
+  checkoutForm: {
+    flex: 1,
+    width: '100%',
+    justifyContent: 'center',
+    gap: 12,
+  },
+  checkoutLabel: {
+    color: C.ink,
+    fontSize: 11,
+    fontWeight: '800',
+    textAlign: 'center',
+  },
+  payInput: {
+    borderWidth: 1,
+    borderColor: C.line,
+    padding: 8,
+    borderRadius: 6,
+    alignItems: 'center',
+  },
+  payText: {
+    color: C.ink,
+    fontSize: 9,
+    fontFamily: 'monospace',
+  },
+  payBtn: {
+    backgroundColor: '#635BFF',
+    paddingVertical: 10,
+    borderRadius: 6,
+    alignItems: 'center',
+  },
+  payBtnText: {
+    color: C.white,
+    fontSize: 10,
+    fontWeight: '800',
+  },
+  syncState: {
+    flex: 1,
+    width: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: 8,
+    paddingHorizontal: 8,
+  },
+  syncVal: {
+    color: '#10B981',
+    fontSize: 14,
+    fontWeight: '900',
+    fontFamily: 'monospace',
+  },
+  syncText: {
+    color: C.charcoal,
+    fontSize: 8,
+    textAlign: 'center',
+    lineHeight: 12,
+  },
+  graphContainer: {
+    flex: 1,
+    width: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: 8,
+  },
+  graphTitle: {
+    color: '#6EE7B7',
+    fontSize: 10,
+    fontWeight: '900',
+    fontFamily: 'monospace',
+  },
+  graphSub: {
+    color: C.muted,
+    fontSize: 8,
+    fontFamily: 'monospace',
+  },
+  visualGraphBar: {
+    height: 8,
+    backgroundColor: '#10B981',
+    borderRadius: 4,
+    width: '80%',
+    marginTop: 4,
+  },
+  noiseMatrix: {
+    flex: 1,
+    width: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: 8,
+  },
+  benchmarkCard: {
+    flex: 1,
+    width: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: 8,
+  },
+  benchVal: {
+    color: '#10B981',
+    fontSize: 14,
+    fontWeight: '900',
+    fontFamily: 'monospace',
+  },
+  benchLabel: {
+    color: '#9CA3AF',
+    fontSize: 8,
+    textAlign: 'center',
+    lineHeight: 12,
   },
 });

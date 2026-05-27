@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
-import { Pressable, ScrollView, StyleSheet, Text, View, useWindowDimensions } from 'react-native';
+import { Pressable, ScrollView, StyleSheet, Text, View, useWindowDimensions, Image, Linking, Platform } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { Gyroscope } from 'expo-sensors';
 import Animated, {
@@ -91,6 +91,35 @@ export default function HomeScreen() {
     scrollRef.current?.scrollTo({ y, animated: true });
   };
 
+  const handleResumeDownload = () => {
+    if (Platform.OS === 'web') {
+      try {
+        if (typeof window !== 'undefined') {
+          const origin = window.location.origin;
+          const pathname = window.location.pathname;
+          // Extract base path to support subdirectory deployments (e.g. GitHub Pages)
+          const basePath = pathname.substring(0, pathname.lastIndexOf('/') + 1);
+          const url = `${origin}${basePath}pratyansha_rana_resume.pdf`;
+          Linking.openURL(url);
+        } else {
+          Linking.openURL('/pratyansha_rana_resume.pdf');
+        }
+      } catch (error) {
+        console.error('Error opening resume via location:', error);
+        Linking.openURL('/pratyansha_rana_resume.pdf');
+      }
+    } else {
+      try {
+        const resumeAsset = require('../../assets/Resume/pratyansha_rana_resume.pdf');
+        const resumeUrl = Image.resolveAssetSource(resumeAsset).uri;
+        Linking.openURL(resumeUrl);
+      } catch (error) {
+        console.error('Error downloading resume:', error);
+        Linking.openURL('/pratyansha_rana_resume.pdf');
+      }
+    }
+  };
+
   const selectProject = (project: EngineeringProject) => {
     setActiveProjectId(project.id);
     setGalleryIndex(0);
@@ -123,7 +152,7 @@ export default function HomeScreen() {
                 <Pressable onPress={() => scrollToSection(sectionPositions.contact)}>
                   <Text style={styles.navLink}>Contact</Text>
                 </Pressable>
-                <Pressable onPress={() => alert('Resume downloading...')} style={styles.resumeHeaderBtn}>
+                <Pressable onPress={handleResumeDownload} style={styles.resumeHeaderBtn}>
                   <Text style={[styles.navLink, styles.resumeText]}>Resume</Text>
                 </Pressable>
               </View>
@@ -163,7 +192,7 @@ export default function HomeScreen() {
             <Pressable onPress={() => { scrollToSection(sectionPositions.contact); setIsMenuOpen(false); }} style={styles.mobileLinkItem}>
               <Text style={styles.mobileLinkLabel}>CONTACT</Text>
             </Pressable>
-            <Pressable onPress={() => { alert('Resume downloading...'); setIsMenuOpen(false); }} style={styles.mobileLinkItem}>
+            <Pressable onPress={() => { handleResumeDownload(); setIsMenuOpen(false); }} style={styles.mobileLinkItem}>
               <Text style={styles.mobileLinkLabel}>DOWNLOAD RESUME</Text>
             </Pressable>
             <Pressable 
@@ -190,7 +219,7 @@ export default function HomeScreen() {
           height={height}
           scrollY={scrollY}
           onProjectsPress={() => scrollToSection(sectionPositions.projects)}
-          onAboutPress={() => alert('Resume downloading...')}
+          onAboutPress={handleResumeDownload}
         />
 
         <View onLayout={(e) => handleSectionLayout('projects', e)}>

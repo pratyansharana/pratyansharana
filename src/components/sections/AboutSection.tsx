@@ -8,10 +8,10 @@ export function AboutSection({ isWide }: { isWide: boolean }) {
   
   // Custom metrics data adapted to your engineering profile
   const STATS = [
-    { label: 'ADVANCED ENGINEERING', value: '02+ Yrs' },
-    { label: 'PROJECTS COMPLETED', value: '20+' },
-    { label: 'CORE COMPETENCIES', value: '05+' },
-    { label: 'GLOBAL COMMITS', value: '124k+' },
+    { label: 'BUILDING SINCE', value: '2024' },
+    { label: 'PROJECTS COMPLETED', value: '10+' },
+    { label: 'TECHNOLOGIES USED', value: '05+' },
+    
   ];
 
   const isSmall = width < 480;
@@ -29,7 +29,7 @@ export function AboutSection({ isWide }: { isWide: boolean }) {
       {/* 1. EDITORIAL MAIN HEADLINE */}
       <Animated.View entering={FadeInUp.duration(700)} style={styles.headerContainer}>
         <Text style={[styles.mainTitle, { fontSize: dynamicTitleSize, lineHeight: dynamicTitleLineHeight }]}>
-          Inspiration Starting{'\n'}From Designing
+          PRATYANSHA RANA{'\n'}--------------------
         </Text>
       </Animated.View>
 

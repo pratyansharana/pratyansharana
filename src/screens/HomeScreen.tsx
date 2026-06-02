@@ -57,6 +57,14 @@ export default function HomeScreen() {
   useEffect(() => {
     if (typeof document !== 'undefined') {
       (document as any).title = 'Rana';
+      const existing = (document as any).getElementById?.('signature-font');
+      if (!existing) {
+        const link = (document as any).createElement('link');
+        link.id = 'signature-font';
+        link.rel = 'stylesheet';
+        link.href = 'https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap';
+        (document as any).head?.appendChild(link);
+      }
     }
   }, []);
 
@@ -136,9 +144,10 @@ export default function HomeScreen() {
       ]}>
         <View style={styles.header}>
           <View style={styles.logoContainer}>
-            <Text style={styles.logoBrackets}>[ </Text>
-            <Text style={styles.logoMain}>R</Text>
-            <Text style={styles.logoBrackets}> ]</Text>
+            <Text aria-hidden style={[styles.signatureLogo, styles.signatureLogoGlow]}>
+              Rana
+            </Text>
+            <Text style={styles.signatureLogo}>Rana</Text>
           </View>
           {width >= 680 ? (
             <>
@@ -157,7 +166,7 @@ export default function HomeScreen() {
                 </Pressable>
               </View>
               <Pressable onPress={() => scrollToSection(sectionPositions.contact)} style={styles.bookCall}>
-                <Text style={styles.bookCallText}>Book A Call</Text>
+                <Text style={styles.bookCallText}>Connect</Text>
                 <ArrowUpRight size={11} color={C.white} strokeWidth={2} />
               </Pressable>
             </>
@@ -199,7 +208,7 @@ export default function HomeScreen() {
               onPress={() => { scrollToSection(sectionPositions.contact); setIsMenuOpen(false); }} 
               style={styles.mobileCtaBtn}
             >
-              <Text style={styles.mobileCtaText}>BOOK A CALL</Text>
+              <Text style={styles.mobileCtaText}>CONNECT</Text>
               <ArrowUpRight size={13} color={C.white} strokeWidth={2} />
             </Pressable>
           </Animated.View>
@@ -282,19 +291,24 @@ const styles = StyleSheet.create({
   logoContainer: {
     flexDirection: 'row',
     alignItems: 'center',
+    position: 'relative',
   },
-  logoBrackets: {
-    color: C.muted,
-    fontFamily: 'monospace',
-    fontSize: 16,
-    fontWeight: '500',
+  signatureLogo: {
+    color: '#17120A',
+    fontFamily: 'Great Vibes, cursive',
+    fontSize: 32,
+    fontWeight: '400',
+    letterSpacing: 0.35,
+    textShadowColor: 'rgba(226, 184, 91, 0.55)',
+    textShadowOffset: { width: 0, height: 0 },
+    textShadowRadius: 3,
   },
-  logoMain: {
-    color: C.ink,
-    fontFamily: 'serif',
-    fontSize: 18,
-    fontWeight: '800',
-    fontStyle: 'italic',
+  signatureLogoGlow: {
+    position: 'absolute',
+    color: 'rgba(197, 151, 60, 0.28)',
+    textShadowColor: 'rgba(197, 151, 60, 0.42)',
+    textShadowOffset: { width: 0.8, height: 0.8 },
+    textShadowRadius: 1,
   },
   navLinks: { 
     flexDirection: 'row', 

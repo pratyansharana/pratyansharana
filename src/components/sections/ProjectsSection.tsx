@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { Pressable, StyleSheet, Text, View, ScrollView, Modal, Dimensions, useWindowDimensions } from 'react-native';
-import { Cpu, Code2, Globe, Database, Smartphone, Zap, ChevronLeft, ChevronRight, Maximize2, X } from 'lucide-react-native';
+import { Pressable, StyleSheet, Text, View, ScrollView, Modal, Dimensions, useWindowDimensions, Platform, Linking } from 'react-native';
+import { Cpu, Code2, Globe, Database, Smartphone, Zap, ChevronLeft, ChevronRight, Maximize2, X, ArrowUpRight } from 'lucide-react-native';
 
 import { C } from '../../constants/portfolioTheme';
 import { ENGINEERING_PROJECTS, EngineeringProject, ProjectId } from '../../data/projects';
@@ -147,19 +147,65 @@ function BentoProjectDetails({
 function ProductionPhoneMockup({
   project,
   galleryIndex,
+  isExpanded = false,
 }: {
   project: EngineeringProject;
   galleryIndex: number;
+  isExpanded?: boolean;
 }) {
   const isQubes = project.id === 'qubes-messenger';
   const isCivic = project.id === 'citizenvote';
   const isMarket = project.id === 'velocity-market';
 
+  // Mathematical precision to achieve a perfect 9:16 aspect ratio under dynamic height constraints
+  const maxBezelHeight = isExpanded ? Math.min(668, SCREEN_HEIGHT * 0.75) : 472;
+  const bezelBorderWidth = isExpanded ? 14 : 12;
+  const bezelPadding = bezelBorderWidth * 2;
+  
+  const screenHeight = maxBezelHeight - bezelPadding;
+  const screenWidth = screenHeight * 9 / 16;
+  
+  const bezelWidth = screenWidth + bezelPadding;
+  const bezelHeight = maxBezelHeight;
+  
+  const bezelRadius = isExpanded ? 36 : 28;
+  const iframeRadius = isExpanded ? 22 : 16;
+
+  const islandWidth = isExpanded ? 110 : 84;
+  const islandHeight = isExpanded ? 24 : 18;
+  const islandRadius = isExpanded ? 12 : 9;
+
+  const statusBarHeight = isExpanded ? 36 : 28;
+  const statusPadding = isExpanded ? 24 : 18;
+
+  const screenPaddingTop = isExpanded ? 44 : 36;
+
+  // Crucial: Hiding simulated headers on Web Live App to avoid duplicate headers and ensure "every pixel is visible"
+  const showSimulatedOverlays = !(isQubes && Platform.OS === 'web');
+
   const renderScreenContent = () => {
     if (isQubes) {
+      if (Platform.OS === 'web') {
+        return (
+          <iframe
+            src="https://phantom-w9di.vercel.app/"
+            scrolling="yes"
+            style={{
+              width: '100%',
+              height: '100%',
+              border: 'none',
+              backgroundColor: '#000000',
+              zIndex: 1,
+              borderRadius: iframeRadius,
+              overflow: 'auto',
+            }}
+            title="Phantom Core"
+          />
+        );
+      }
       if (galleryIndex === 0) {
         return (
-          <View style={[styles.screenContent, { backgroundColor: '#0B0B0F' }]}>
+          <View style={[styles.screenContent, { paddingTop: screenPaddingTop, backgroundColor: '#0B0B0F' }]}>
             <Text style={styles.screenHeader}>QUANTUM SECURE</Text>
             <View style={styles.quantumGraph}>
               <Text style={styles.quantumText}>[ BB84 PROTOCOL ]</Text>
@@ -177,7 +223,7 @@ function ProductionPhoneMockup({
       }
       if (galleryIndex === 1) {
         return (
-          <View style={[styles.screenContent, { backgroundColor: '#0F0E13' }]}>
+          <View style={[styles.screenContent, { paddingTop: screenPaddingTop, backgroundColor: '#0F0E13' }]}>
             <View style={styles.chatHeader}>
               <Text style={styles.chatTitle}>PHANTOM CORE</Text>
               <Text style={styles.chatSubtitle}>• Kyber-1024 Active</Text>
@@ -197,7 +243,7 @@ function ProductionPhoneMockup({
         );
       }
       return (
-        <View style={[styles.screenContent, { backgroundColor: '#0D0D0D' }]}>
+        <View style={[styles.screenContent, { paddingTop: screenPaddingTop, backgroundColor: '#0D0D0D' }]}>
           <Text style={styles.screenHeader}>KEY TRACE MONITOR</Text>
           <ScrollView contentContainerStyle={styles.matrixContainer}>
             <Text style={styles.matrixLog}>[11:04:32] Kyber Key encapsulating...</Text>
@@ -213,7 +259,7 @@ function ProductionPhoneMockup({
     if (isCivic) {
       if (galleryIndex === 0) {
         return (
-          <View style={[styles.screenContent, { backgroundColor: '#EFEFEF' }]}>
+          <View style={[styles.screenContent, { paddingTop: screenPaddingTop, backgroundColor: '#EFEFEF' }]}>
             <View style={styles.cameraHeader}>
               <Text style={[styles.screenHeader, { color: C.ink }]}>LOK AWAZ CAMERA</Text>
             </View>
@@ -230,7 +276,7 @@ function ProductionPhoneMockup({
         );
       }
       return (
-        <View style={[styles.screenContent, { backgroundColor: '#F5F5F3' }]}>
+        <View style={[styles.screenContent, { paddingTop: screenPaddingTop, backgroundColor: '#F5F5F3' }]}>
           <Text style={[styles.screenHeader, { color: C.ink }]}>ZK-PROOF IDENTITY</Text>
           <View style={styles.identityCard}>
             <Text style={styles.idHash}>Hash: 0x9f32...8e21</Text>
@@ -245,7 +291,7 @@ function ProductionPhoneMockup({
     if (isMarket) {
       if (galleryIndex === 0) {
         return (
-          <View style={[styles.screenContent, { backgroundColor: '#F9F9F7' }]}>
+          <View style={[styles.screenContent, { paddingTop: screenPaddingTop, backgroundColor: '#F9F9F7' }]}>
             <Text style={[styles.screenHeader, { color: C.ink }]}>GEAR SWAP</Text>
             <View style={styles.marketGrid}>
               <View style={styles.marketItem}>
@@ -262,7 +308,7 @@ function ProductionPhoneMockup({
       }
       if (galleryIndex === 1) {
         return (
-          <View style={[styles.screenContent, { backgroundColor: '#FFFFFF' }]}>
+          <View style={[styles.screenContent, { paddingTop: screenPaddingTop, backgroundColor: '#FFFFFF' }]}>
             <Text style={[styles.screenHeader, { color: C.ink }]}>STRIPE CHECKOUT</Text>
             <View style={styles.checkoutForm}>
               <Text style={styles.checkoutLabel}>Total Amount: ₹180</Text>
@@ -277,7 +323,7 @@ function ProductionPhoneMockup({
         );
       }
       return (
-        <View style={[styles.screenContent, { backgroundColor: '#F9F9F7' }]}>
+        <View style={[styles.screenContent, { paddingTop: screenPaddingTop, backgroundColor: '#F9F9F7' }]}>
           <Text style={[styles.screenHeader, { color: C.ink }]}>TRANSACTION SYNC</Text>
           <View style={styles.syncState}>
             <Text style={styles.syncVal}>100% SUCCESS</Text>
@@ -289,7 +335,7 @@ function ProductionPhoneMockup({
 
     if (galleryIndex === 0) {
       return (
-        <View style={[styles.screenContent, { backgroundColor: '#090F0D' }]}>
+        <View style={[styles.screenContent, { paddingTop: screenPaddingTop, backgroundColor: '#090F0D' }]}>
           <Text style={styles.screenHeader}>BB84 SIMULATOR</Text>
           <View style={styles.graphContainer}>
             <Text style={styles.graphTitle}>Perturbation Key Rate</Text>
@@ -301,7 +347,7 @@ function ProductionPhoneMockup({
     }
     if (galleryIndex === 1) {
       return (
-        <View style={[styles.screenContent, { backgroundColor: '#0B0B0F' }]}>
+        <View style={[styles.screenContent, { paddingTop: screenPaddingTop, backgroundColor: '#0B0B0F' }]}>
           <Text style={styles.screenHeader}>PERTURBATIONS MAP</Text>
           <View style={styles.noiseMatrix}>
             <Text style={styles.matrixLog}>Eavesdropping (Eve): NONE</Text>
@@ -311,7 +357,7 @@ function ProductionPhoneMockup({
       );
     }
     return (
-      <View style={[styles.screenContent, { backgroundColor: '#0D0D0D' }]}>
+      <View style={[styles.screenContent, { paddingTop: screenPaddingTop, backgroundColor: '#0D0D0D' }]}>
         <Text style={styles.screenHeader}>BENCHMARK RESULTS</Text>
         <View style={styles.benchmarkCard}>
           <Text style={styles.benchVal}>98.4% EFFICIENCY</Text>
@@ -321,17 +367,78 @@ function ProductionPhoneMockup({
     );
   };
 
+  // Gorgeous 3D perspective rotation tilt styles for the non-expanded state
+  const rotateStyle = isExpanded ? {} : {
+    transform: [
+      { perspective: 1200 },
+      { rotateY: '-13deg' },
+      { rotateX: '7deg' },
+      { rotateZ: '-1.5deg' },
+    ] as any
+  };
+
   return (
     <View style={styles.iphoneOuter}>
-      <View style={styles.iphoneBezel}>
-        <View style={styles.iphoneIsland} />
-        <View style={styles.iphoneStatusBar}>
-          <Text style={styles.statusTime}>9:41</Text>
-          <View style={styles.statusIcons}>
-            <Text style={styles.statusIconText}>📶</Text>
-            <Text style={styles.statusIconText}>🔋</Text>
+      {/* 3D Side Depth Plate (extrudes the phone's thickness for high-fidelity 3D shadow depth) */}
+      {!isExpanded && (
+        <View style={[
+          styles.iphoneBezel3dSide,
+          {
+            width: bezelWidth,
+            height: bezelHeight,
+            borderRadius: bezelRadius,
+            position: 'absolute',
+            left: '50%',
+            top: '50%',
+            marginLeft: -(bezelWidth / 2) + 12,
+            marginTop: -(bezelHeight / 2) + 6,
+            transform: [
+              { perspective: 1200 },
+              { rotateY: '-13deg' },
+              { rotateX: '7deg' },
+              { rotateZ: '-1.5deg' },
+            ] as any
+          }
+        ]} />
+      )}
+
+      {/* Main Bezel */}
+      <View style={[
+        styles.iphoneBezel,
+        {
+          width: bezelWidth,
+          height: bezelHeight,
+          borderRadius: bezelRadius,
+          borderWidth: bezelBorderWidth,
+        },
+        rotateStyle
+      ]}>
+        {showSimulatedOverlays && (
+          <View pointerEvents="none" style={[
+            styles.iphoneIsland,
+            {
+              width: islandWidth,
+              height: islandHeight,
+              borderRadius: islandRadius,
+              marginLeft: -(islandWidth / 2),
+            }
+          ]} />
+        )}
+        {showSimulatedOverlays && (
+          <View pointerEvents="none" style={[
+            styles.iphoneStatusBar,
+            {
+              height: statusBarHeight,
+              paddingHorizontal: statusPadding,
+            }
+          ]}>
+            <Text style={styles.statusTime}>9:41</Text>
+            <View style={styles.statusIcons}>
+              <Text style={styles.statusIconText}>📶</Text>
+              <Text style={styles.statusIconText}>🔋</Text>
+            </View>
           </View>
-        </View>
+        )}
         {renderScreenContent()}
       </View>
     </View>
@@ -358,7 +465,7 @@ export function ProjectsSection({
   const [isFullscreen, setIsFullscreen] = useState(false);
   const { width } = useWindowDimensions();
   const isTiny = width < 450;
-  const dynamicCanvasHeight = width < 450 ? 300 : 420;
+  const dynamicCanvasHeight = width < 450 ? 350 : 500;
 
   // Navigation Handlers
   const handlePrevImage = () => {
@@ -403,9 +510,21 @@ export function ProjectsSection({
               <Maximize2 size={20} color={C.ink} />
             </Pressable>
 
+            {/* Launch App Button */}
+            {activeProject.id === 'qubes-messenger' && (
+              <Pressable 
+                onPress={() => Linking.openURL('https://phantom-w9di.vercel.app/')}
+                style={styles.launchButton}
+              >
+                <Text style={styles.launchButtonText}>Launch Live App</Text>
+                <ArrowUpRight size={11} color={C.white} strokeWidth={2.5} />
+              </Pressable>
+            )}
+
             <ProductionPhoneMockup
               project={activeProject}
               galleryIndex={galleryIndex}
+              isExpanded={false}
             />
           </View>
 
@@ -452,9 +571,20 @@ export function ProjectsSection({
             </Pressable>
 
             <View style={styles.fullscreenPhoneContainer}>
+              {activeProject.id === 'qubes-messenger' && (
+                <Pressable 
+                  onPress={() => Linking.openURL('https://phantom-w9di.vercel.app/')}
+                  style={styles.fullscreenLaunchButton}
+                >
+                  <Text style={styles.launchButtonText}>Launch Live App</Text>
+                  <ArrowUpRight size={12} color={C.white} strokeWidth={2.5} />
+                </Pressable>
+              )}
+
               <ProductionPhoneMockup
                 project={activeProject}
                 galleryIndex={galleryIndex}
+                isExpanded={true}
               />
             </View>
 
@@ -516,11 +646,11 @@ const styles = StyleSheet.create({
     alignItems: 'center', 
     justifyContent: 'center', 
     flex: 1, 
-    maxWidth: 420, // slightly wider to accommodate buttons
+    maxWidth: 440, // slightly wider to accommodate larger button space
     marginTop: 50 
   },
   phoneShowcase: { 
-    height: 420, 
+    height: 500, 
     flex: 1, 
     position: 'relative' 
   },
@@ -545,6 +675,50 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(255,255,255,0.8)',
     borderRadius: 20,
     zIndex: 100,
+  },
+  launchButton: {
+    position: 'absolute',
+    bottom: 24,
+    left: '50%',
+    transform: [{ translateX: -70 }] as any,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+    backgroundColor: C.ink,
+    paddingVertical: 8,
+    paddingHorizontal: 16,
+    borderRadius: 100,
+    zIndex: 101,
+    shadowColor: C.ink,
+    shadowOffset: { width: 0, height: 6 },
+    shadowOpacity: 0.12,
+    shadowRadius: 10,
+    elevation: 4,
+  },
+  fullscreenLaunchButton: {
+    position: 'absolute',
+    bottom: -60,
+    alignSelf: 'center',
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+    backgroundColor: C.ink,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 100,
+    zIndex: 101,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 8 },
+    shadowOpacity: 0.25,
+    shadowRadius: 12,
+    elevation: 6,
+  },
+  launchButtonText: {
+    color: C.white,
+    fontSize: 10,
+    fontWeight: '900',
+    fontFamily: 'monospace',
+    letterSpacing: 0.5,
   },
 
   projectSide: { flex: 1.5 },
@@ -652,10 +826,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   iphoneBezel: {
-    width: 250,
-    height: 420,
-    borderRadius: 36,
-    borderWidth: 10,
     borderColor: '#1e1e24',
     backgroundColor: C.ink,
     overflow: 'hidden',
@@ -665,6 +835,17 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.15,
     shadowRadius: 20,
     elevation: 8,
+  },
+  iphoneBezel3dSide: {
+    backgroundColor: '#0c0c0f',
+    borderWidth: 1,
+    borderColor: '#23232a',
+    zIndex: 0,
+    shadowColor: '#000',
+    shadowOffset: { width: 8, height: 20 },
+    shadowOpacity: 0.38,
+    shadowRadius: 28,
+    elevation: 4,
   },
   iphoneIsland: {
     position: 'absolute',

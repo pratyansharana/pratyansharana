@@ -81,21 +81,15 @@
 
 ### 📊 GitHub & Coding Stats
 
-<table border="0">
-  <tr>
-    <td width="50%">
-      <img src="https://github-stats-extended.vercel.app/api?username=pratyansharana&show_icons=true&theme=tokyonight&hide_border=true" width="100%" height="200" alt="GitHub Stats" />
-    </td>
-    <td width="50%">
-      <img src="https://github-stats-extended.vercel.app/api/top-langs/?username=pratyansharana&layout=compact&theme=tokyonight&hide_border=true" width="100%" height="200" alt="Top Languages" />
-    </td>
-  </tr>
-  <tr>
-    <td width="50%">
-      <img src="https://leetcard.jacoblin.cool/Pratyanshrana?theme=dark&font=Baloo_2" width="100%" height="200" alt="LeetCode Stats" />
-    </td>
-    <td width="50%">
-      <img src="https://github-readme-streak-stats.herokuapp.com/?user=pratyansharana&theme=tokyonight&hide_border=true" width="100%" height="200" alt="GitHub Streak" />
-    </td>
-  </tr>
-</table>
+<p align="center">
+  <img src="https://github-stats-extended.vercel.app/api?username=pratyansharana&show_icons=true&theme=tokyonight&hide_border=true" width="49%" alt="GitHub Stats" />
+  <img src="https://github-stats-extended.vercel.app/api/top-langs/?username=pratyansharana&layout=compact&theme=tokyonight&hide_border=true" width="49%" alt="Top Languages" />
+</p>
+
+<p align="center">
+  <img src="https://leetcard.jacoblin.cool/Pratyanshrana?theme=dark&font=Baloo_2&ext=streak" width="100%" alt="LeetCode Stats & Streak" />
+</p>
+
+<p align="center">
+  <img src="https://github-readme-streak-stats.herokuapp.com/?user=pratyansharana&theme=tokyonight&hide_border=true" width="100%" alt="GitHub Streak" />
+</p>

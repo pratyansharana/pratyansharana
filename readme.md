@@ -15,8 +15,11 @@
   <a href="https://linkedin.com">
     <img src="https://img.shields.io/badge/LinkedIn-Connect-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn" />
   </a>
-  <a href="https://github.com">
+  <a href="https://github.com/pratyansharana">
     <img src="https://img.shields.io/badge/GitHub-Follow-181717?style=for-the-badge&logo=github&logoColor=white" alt="GitHub" />
+  </a>
+  <a href="https://leetcode.com/u/Pratyanshrana/">
+    <img src="https://img.shields.io/badge/LeetCode-Profile-FFA116?style=for-the-badge&logo=leetcode&logoColor=black" alt="LeetCode" />
   </a>
 </p>
 
@@ -76,7 +79,7 @@
 
 ---
 
-### 📊 GitHub Stats
+### 📊 GitHub & Coding Stats
 
 <p align="center">
   <img src="https://github-stats-extended.vercel.app/api?username=pratyansharana&show_icons=true&theme=tokyonight&hide_border=true" width="48%" alt="GitHub Stats" />
@@ -84,5 +87,6 @@
 </p>
 
 <p align="center">
-  <img src="https://github-readme-streak-stats.herokuapp.com/?user=pratyansharana&theme=tokyonight&hide_border=true" width="97%" alt="GitHub Streak" />
+  <img src="https://leetcard.jacoblin.cool/Pratyanshrana?theme=dark&font=Baloo_2&ext=heatmap" width="48%" alt="LeetCode Stats" />
+  <img src="https://github-readme-streak-stats.herokuapp.com/?user=pratyansharana&theme=tokyonight&hide_border=true" width="48%" alt="GitHub Streak" />
 </p>

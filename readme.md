@@ -10,7 +10,7 @@
 
 <p align="center">
   <a href="mailto:pratyanshranal@gmail.com">
-    <img src="https://img.shields.io/badge/Email-pratyanshranal%40gmail.com-D14836?style=for-the-badge&logo=gmail&logoColor=white" alt="Email" />
+    <img src="https://img.shields.io/badge/Email-pratyanshrana1%40gmail.com-D14836?style=for-the-badge&logo=gmail&logoColor=white" alt="Email" />
   </a>
   <a href="https://linkedin.com">
     <img src="https://img.shields.io/badge/LinkedIn-Connect-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn" />

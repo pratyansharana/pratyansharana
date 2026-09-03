@@ -9,15 +9,15 @@ export function ContactSection() {
   const isMobile = width < 900;
 
   const handleEmailPress = () => {
-    Linking.openURL('mailto:pratyansharana@gmail.com'); // Put a real email address helper
+    Linking.openURL('mailto:pratyansharana1@gmail.com'); // Put a real email address helper
   };
 
   const handleStartProject = () => {
-    Linking.openURL('mailto:pratyansharana@gmail.com?subject=Project%20Inquiry');
+    Linking.openURL('mailto:pratyansharana1@gmail.com?subject=Project%20Inquiry');
   };
 
   const DIRECTORY = [
-    { label: 'EMAIL', value: 'pratyansharana@gmail.com', link: 'mailto:pratyansharana@gmail.com' },
+    { label: 'EMAIL', value: 'pratyansharana1@gmail.com', link: 'mailto:pratyansharana1@gmail.com' },
     { label: 'LOCATION', value: 'Bhopal, India / Remote', link: null },
     { label: 'GITHUB', value: 'github.com/pratyansharana', link: 'https://github.com/pratyansharana' },
     { label: 'LINKEDIN', value: 'linkedin.com/in/pratyansh-rana', link: 'https://www.linkedin.com/in/pratyansha-rana-99699b306/' },
